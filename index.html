@@ -657,12 +657,12 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
           <!-- Action -->
           <sc-if value="{{ doc.uploaded }}" hint-placeholder-val="{{ false }}">
             <button onClick="{{ doc.toggle }}" class="p-btn p-btn--sm p-btn--outline p-btn--secondary" style="flex-shrink:0; gap:5px; white-space:nowrap;">
-              <i class="pi pi-refresh" style="font-family:'Persona Icon'; font-size:13px;"></i> Ganti
+              <i class="pi pi-refresh" style="font-family:'Persona Icon'; font-size:13px;"></i> {{ docBtnChange }}
             </button>
           </sc-if>
           <sc-if value="{{ doc.notUploaded }}" hint-placeholder-val="{{ false }}">
             <button onClick="{{ doc.toggle }}" class="p-btn p-btn--sm p-btn--outline p-btn--primary" style="flex-shrink:0; gap:5px; white-space:nowrap;">
-              <i class="pi pi-upload" style="font-family:'Persona Icon'; font-size:13px;"></i> Pilih
+              <i class="pi pi-upload" style="font-family:'Persona Icon'; font-size:13px;"></i> {{ docBtnSelect }}
             </button>
           </sc-if>
 
@@ -1547,6 +1547,14 @@ class Component extends DCLogic {
         fileInfo: 'Format yang diterima: PDF, PNG, JPG · Ukuran maks. per file: 5 MB',
         submitCta: 'Lanjutkan ke FO Agreement →',
         back: 'Kembali',
+        docNpwp: 'NPWP perusahaan', docNpwpDesc: 'File asli atau salinan digital dokumen NPWP perusahaan yang masih berlaku.',
+        docAkta: 'Dokumen Pendirian Perusahaan', docAktaDesc: 'File asli atau salinan digital dokumen pendirian dan/atau perubahan terakhir perusahaan.',
+        docSk: 'SK pengesahan Kemenkumham', docSkDesc: 'File asli atau salinan digital surat keputusan pengesahan dari Kemenkumham yang berlaku.',
+        docNib: 'NIB (Nomor Induk Berusaha)', docNibDesc: 'File asli atau salinan digital dokumen NIB yang diterbitkan melalui OSS RBA yang berlaku.',
+        docPoa: 'Surat kuasa direktur', docPoaDesc: 'PDF/PNG/JPG · maks. 2 MB', docPoaNote: 'Lampirkan surat kuasa dari direktur yang berwenang mewakili perusahaan.',
+        submitHintReady: 'Semua dokumen wajib siap — klik untuk melanjutkan ke FO Agreement.',
+        submitHintNotReady: 'Upload 4 dokumen wajib (NPWP, Akta, SK, NIB) untuk mengaktifkan tombol ini.',
+        docBtnSelect: 'Pilih', docBtnChange: 'Ganti',
         // Doc upload
         uploadDocTitle: 'Upload dokumen',
         uploadDropzone: 'Tarik dokumen ke sini atau klik',
@@ -1709,6 +1717,14 @@ class Component extends DCLogic {
         fileInfo: 'Accepted formats: PDF, PNG, JPG · Max file size: 5 MB',
         submitCta: 'Continue to FO Agreement →',
         back: 'Back',
+        docNpwp: 'Company NPWP', docNpwpDesc: 'Original or digital copy of the company NPWP document that is still valid.',
+        docAkta: 'Deed of Establishment', docAktaDesc: 'Original or digital copy of the deed of establishment and/or latest amendment.',
+        docSk: 'Kemenkumham Approval Decree', docSkDesc: 'Original or digital copy of the approval decree from Kemenkumham that is still valid.',
+        docNib: 'NIB (Business Identification Number)', docNibDesc: 'Original or digital copy of the NIB document issued through OSS RBA that is still valid.',
+        docPoa: 'Director power of attorney', docPoaDesc: 'PDF/PNG/JPG · max. 2 MB', docPoaNote: 'Attach a power of attorney from the director authorized to represent the company.',
+        submitHintReady: 'All required documents are ready — click to continue to FO Agreement.',
+        submitHintNotReady: 'Upload 4 required documents (NPWP, Deed, SK, NIB) to enable this button.',
+        docBtnSelect: 'Select', docBtnChange: 'Change',
         // Doc upload
         uploadDocTitle: 'Upload document',
         uploadDropzone: 'Drag document here or click',
@@ -2077,12 +2093,12 @@ class Component extends DCLogic {
       regBtnCursor: isFormValid ? 'pointer' : 'not-allowed',
 
       docRows: [
-        makeDoc('npwp', 'NPWP perusahaan', 'File asli atau salinan digital dokumen NPWP perusahaan yang masih berlaku.', true),
-        makeDoc('akta', 'Dokumen Pendirian Perusahaan', 'File asli atau salinan digital dokumen pendirian dan/atau perubahan terakhir perusahaan.', true),
-        makeDoc('sk', 'SK pengesahan Kemenkumham', 'File asli atau salinan digital surat keputusan pengesahan dari Kemenkumham yang berlaku.', true),
-        makeDoc('nib', 'NIB (Nomor Induk Berusaha)', 'File asli atau salinan digital dokumen NIB yang diterbitkan melalui OSS RBA yang berlaku.', true),
+        makeDoc('npwp', t.docNpwp, t.docNpwpDesc, true),
+        makeDoc('akta', t.docAkta, t.docAktaDesc, true),
+        makeDoc('sk', t.docSk, t.docSkDesc, true),
+        makeDoc('nib', t.docNib, t.docNibDesc, true),
         ...(s.isAuthorizedRep !== false ? [] : [
-          makeDoc('poa', 'Surat kuasa direktur', 'PDF/PNG/JPG · maks. 2 MB', true, 'Lampirkan surat kuasa dari direktur yang berwenang mewakili perusahaan.')
+          makeDoc('poa', t.docPoa, t.docPoaDesc, true, t.docPoaNote)
         ]),
       ],
       docCount,
@@ -2091,9 +2107,9 @@ class Component extends DCLogic {
       reqDocs,
       submitDocsOpacity: reqDocs ? 1 : 0.45,
       submitDocsCursor: reqDocs ? 'pointer' : 'not-allowed',
-      submitDocsHint: reqDocs
-        ? 'Semua dokumen wajib siap — klik untuk melanjutkan ke FO Agreement.'
-        : 'Upload 4 dokumen wajib (NPWP, Akta, SK, NIB) untuk mengaktifkan tombol ini.',
+      submitDocsHint: reqDocs ? t.submitHintReady : t.submitHintNotReady,
+      docBtnSelect: t.docBtnSelect,
+      docBtnChange: t.docBtnChange,
 
       upPrivyId: (e) => this.setState(p => ({ form: { ...p.form, privyId: e.target.value } })),
       upEmail: (e) => this.setState(p => ({ form: { ...p.form, workEmail: e.target.value } })),

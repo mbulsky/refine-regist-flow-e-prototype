@@ -1243,27 +1243,25 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         </button>
       </div>
       <div style="display:flex; align-items:center; gap:16px; padding:18px 20px; border-bottom:1px solid var(--border-subtlest);">
-        <div style="width:44px; height:52px; background:var(--gray-5); border-radius:8px; border:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-          <i class="pi pi-pdf" style="font-family:'Persona Icon'; font-size:20px; color:var(--fg-subtlest);"></i>
+        <div style="width:44px; height:52px; background:{{ softDoc1IconBg }}; border-radius:8px; border:1px solid {{ softDoc1Border }}; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <i class="pi pi-pdf" style="font-family:'Persona Icon'; font-size:20px; color:{{ softDoc1IconColor }};"></i>
         </div>
         <div style="flex:1;">
           <div style="font-size:14px; font-weight:500; color:var(--fg-default); margin-bottom:2px;">{{ t.softDoc1 }}<span style="color:var(--brand-action);">*</span></div>
-          <div style="font-size:12px; color:var(--fg-subtlest);">PDF/PNG/JPG · maks. 2 MB</div>
         </div>
-        <button class="p-btn p-btn--sm p-btn--outline p-btn--primary" style="flex-shrink:0; gap:5px; white-space:nowrap;">
-          <i class="pi pi-upload" style="font-family:'Persona Icon'; font-size:13px;"></i> Pilih
+        <button onClick="{{ toggleSoftDoc1 }}" class="p-btn p-btn--sm p-btn--outline p-btn--primary" style="flex-shrink:0; gap:5px; white-space:nowrap;">
+          <i class="pi {{ softDoc1BtnIcon }}" style="font-family:'Persona Icon'; font-size:13px;"></i> {{ softDoc1BtnLabel }}
         </button>
       </div>
       <div style="display:flex; align-items:center; gap:16px; padding:18px 20px;">
-        <div style="width:44px; height:52px; background:var(--gray-5); border-radius:8px; border:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-          <i class="pi pi-pdf" style="font-family:'Persona Icon'; font-size:20px; color:var(--fg-subtlest);"></i>
+        <div style="width:44px; height:52px; background:{{ softDoc2IconBg }}; border-radius:8px; border:1px solid {{ softDoc2Border }}; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <i class="pi pi-pdf" style="font-family:'Persona Icon'; font-size:20px; color:{{ softDoc2IconColor }};"></i>
         </div>
         <div style="flex:1;">
           <div style="font-size:14px; font-weight:500; color:var(--fg-default); margin-bottom:2px;">{{ t.softDoc2 }}<span style="color:var(--brand-action);">*</span></div>
-          <div style="font-size:12px; color:var(--fg-subtlest);">PDF/PNG/JPG · maks. 2 MB</div>
         </div>
-        <button class="p-btn p-btn--sm p-btn--outline p-btn--primary" style="flex-shrink:0; gap:5px; white-space:nowrap;">
-          <i class="pi pi-upload" style="font-family:'Persona Icon'; font-size:13px;"></i> Pilih
+        <button onClick="{{ toggleSoftDoc2 }}" class="p-btn p-btn--sm p-btn--outline p-btn--primary" style="flex-shrink:0; gap:5px; white-space:nowrap;">
+          <i class="pi {{ softDoc2BtnIcon }}" style="font-family:'Persona Icon'; font-size:13px;"></i> {{ softDoc2BtnLabel }}
         </button>
       </div>
     </div>
@@ -1273,7 +1271,7 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
       <span style="font-size:12.5px; color:var(--fg-subtle);">{{ t.fileInfo }}</span>
     </div>
 
-    <button onClick="{{ doSoftResubmit }}" class="p-btn p-btn--lg p-btn--primary" style="width:100%; justify-content:center; opacity:.45; cursor:not-allowed;">
+    <button onClick="{{ doSoftResubmit }}" class="p-btn p-btn--lg p-btn--primary" style="width:100%; justify-content:center; opacity:{{ softSubmitOpacity }}; cursor:{{ softSubmitCursor }};">
       {{ t.softSubmitBtn }}
     </button>
   </div>
@@ -1462,6 +1460,7 @@ class Component extends DCLogic {
     showSettingsPanel: false,
     autoFillOn: false,
     unverifiedMode: '',
+    softDocs: { npwp: false, akta: false },
     isAuthorizedRep: null,
     docStep: 1,
     docSetupPanel: 'recipients',
@@ -1885,10 +1884,26 @@ class Component extends DCLogic {
       showSoftRej: s.screen === 'soft-rejected',
       showRej: s.screen === 'rejected',
       regId: 'ENT-284031',
-      softResubmitDocs: { npwp: false, akta: false },
-      doSoftResubmit: () => this.setState({ screen: 'pending' }, () => {
-        setTimeout(() => this.setState({ screen: 'dashboard', verificationStatus: 'verified', showBanner: true }), 3500);
-      }),
+      toggleSoftDoc1: () => this.setState(p => ({ softDocs: { ...p.softDocs, npwp: !p.softDocs.npwp } })),
+      toggleSoftDoc2: () => this.setState(p => ({ softDocs: { ...p.softDocs, akta: !p.softDocs.akta } })),
+      softDoc1BtnIcon:  s.softDocs.npwp ? 'pi-check-circle' : 'pi-upload',
+      softDoc1BtnLabel: s.softDocs.npwp ? t.docBtnChange : t.docBtnSelect,
+      softDoc1IconBg:    s.softDocs.npwp ? '#F0FDF4' : 'var(--gray-5)',
+      softDoc1Border:    s.softDocs.npwp ? '#22C55E' : 'var(--border-subtle)',
+      softDoc1IconColor: s.softDocs.npwp ? '#22C55E' : 'var(--fg-subtlest)',
+      softDoc2BtnIcon:  s.softDocs.akta ? 'pi-check-circle' : 'pi-upload',
+      softDoc2BtnLabel: s.softDocs.akta ? t.docBtnChange : t.docBtnSelect,
+      softDoc2IconBg:    s.softDocs.akta ? '#F0FDF4' : 'var(--gray-5)',
+      softDoc2Border:    s.softDocs.akta ? '#22C55E' : 'var(--border-subtle)',
+      softDoc2IconColor: s.softDocs.akta ? '#22C55E' : 'var(--fg-subtlest)',
+      softSubmitOpacity: (s.softDocs.npwp && s.softDocs.akta) ? 1 : 0.45,
+      softSubmitCursor:  (s.softDocs.npwp && s.softDocs.akta) ? 'pointer' : 'not-allowed',
+      doSoftResubmit: () => {
+        if (!this.state.softDocs.npwp || !this.state.softDocs.akta) return;
+        this.setState({ screen: 'pending', softDocs: { npwp: false, akta: false } }, () => {
+          setTimeout(() => this.setState({ screen: 'dashboard', verificationStatus: 'verified', showBanner: true }), 3500);
+        });
+      },
       goVerified:   () => this.setState({ screen: 'dashboard', verificationStatus: 'verified', showBanner: true }),
       goSoftReject: () => this.setState({ screen: 'dashboard', verificationStatus: 'soft-rejected', showBanner: true }),
       goHardReject: () => this.setState({ screen: 'dashboard', verificationStatus: 'hard-rejected', showBanner: true }),

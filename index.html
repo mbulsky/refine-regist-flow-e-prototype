@@ -262,40 +262,46 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <span style="font-size:17px; font-weight:700; color:#111;">{{ t.certModalTitle }}</span>
         <button onClick="{{ closeCertModal }}" style="background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
       </div>
-      <div style="flex:1; overflow-y:auto; padding:24px;">
-        <div style="font-size:13.5px; color:#666; line-height:1.6; margin-bottom:24px;">{{ t.certModalIntro }}</div>
+      <div style="flex:1; overflow-y:auto; padding:24px 28px;">
+        <div style="font-size:13.5px; color:#666; line-height:1.7; margin-bottom:28px;">{{ t.certModalIntro }}</div>
 
-        <!-- Personal -->
-        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:18px 20px; margin-bottom:16px;">
-          <div style="font-size:15px; font-weight:700; color:#1E40AF; margin-bottom:8px;">{{ t.certPersonalTitle }}</div>
-          <div style="font-size:13px; color:#1E40AF; line-height:1.5; margin-bottom:12px;">{{ t.certPersonalDesc }}</div>
-          <sc-for list="{{ certPersonalList }}" as="item" hint-placeholder-count="6">
-            <div style="font-size:12.5px; color:#1E3A5F; line-height:1.6; padding:3px 0 3px 14px; border-left:2px solid #93C5FD;">{{ item.text }}</div>
-          </sc-for>
-        </div>
-
-        <!-- Affiliated -->
-        <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:12px; padding:18px 20px; margin-bottom:24px;">
-          <div style="font-size:15px; font-weight:700; color:#991B1B; margin-bottom:8px;">{{ t.certAffTitle }}</div>
-          <div style="font-size:13px; color:#991B1B; line-height:1.5; margin-bottom:12px;">{{ t.certAffDesc }}</div>
-          <sc-for list="{{ certAffList }}" as="item" hint-placeholder-count="6">
-            <div style="font-size:12.5px; color:#7F1D1D; line-height:1.6; padding:3px 0 3px 14px; border-left:2px solid #FCA5A5;">{{ item.text }}</div>
-          </sc-for>
+        <!-- Side by side cards -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:28px;">
+          <!-- Personal -->
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:20px; display:flex; flex-direction:column;">
+            <div style="font-size:15px; font-weight:700; color:#1E40AF; margin-bottom:10px;">{{ t.certPersonalTitle }}</div>
+            <div style="font-size:12.5px; color:#3B82F6; line-height:1.6; margin-bottom:14px;">{{ t.certPersonalDesc }}</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <sc-for list="{{ certPersonalList }}" as="item" hint-placeholder-count="6">
+                <div style="font-size:11.5px; color:#1E3A5F; line-height:1.5; padding:4px 0 4px 12px; border-left:2px solid #93C5FD; background:rgba(255,255,255,.5); border-radius:0 4px 4px 0;">{{ item.text }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <!-- Affiliated -->
+          <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:12px; padding:20px; display:flex; flex-direction:column;">
+            <div style="font-size:15px; font-weight:700; color:#991B1B; margin-bottom:10px;">{{ t.certAffTitle }}</div>
+            <div style="font-size:12.5px; color:#DC2626; line-height:1.6; margin-bottom:14px;">{{ t.certAffDesc }}</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <sc-for list="{{ certAffList }}" as="item" hint-placeholder-count="6">
+                <div style="font-size:11.5px; color:#7F1D1D; line-height:1.5; padding:4px 0 4px 12px; border-left:2px solid #FCA5A5; background:rgba(255,255,255,.5); border-radius:0 4px 4px 0;">{{ item.text }}</div>
+              </sc-for>
+            </div>
+          </div>
         </div>
 
         <!-- Table -->
         <div style="font-size:15px; font-weight:700; color:#111; margin-bottom:12px;">{{ t.certTableTitle }}</div>
         <div style="border:1px solid #E5E7EB; border-radius:10px; overflow:hidden;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; background:#F9FAFB; border-bottom:1px solid #E5E7EB;">
-            <div style="padding:10px 14px; font-size:12px; font-weight:700; color:#374151;">{{ t.certTh1 }}</div>
-            <div style="padding:10px 14px; font-size:12px; font-weight:700; color:#1E40AF;">{{ t.certTh2 }}</div>
-            <div style="padding:10px 14px; font-size:12px; font-weight:700; color:#991B1B;">{{ t.certTh3 }}</div>
+          <div style="display:grid; grid-template-columns:1.2fr 1fr 1fr; background:#F9FAFB; border-bottom:2px solid #E5E7EB;">
+            <div style="padding:11px 16px; font-size:11.5px; font-weight:700; color:#374151; text-transform:uppercase; letter-spacing:.5px;">{{ t.certTh1 }}</div>
+            <div style="padding:11px 16px; font-size:11.5px; font-weight:700; color:#1E40AF; text-transform:uppercase; letter-spacing:.5px;">{{ t.certTh2 }}</div>
+            <div style="padding:11px 16px; font-size:11.5px; font-weight:700; color:#991B1B; text-transform:uppercase; letter-spacing:.5px;">{{ t.certTh3 }}</div>
           </div>
           <sc-for list="{{ certTableRows }}" as="row" hint-placeholder-count="6">
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid #F3F4F6;">
-              <div style="padding:10px 14px; font-size:12px; color:#374151; font-weight:500;">{{ row.c1 }}</div>
-              <div style="padding:10px 14px; font-size:12px; color:#666;">{{ row.c2 }}</div>
-              <div style="padding:10px 14px; font-size:12px; color:#666;">{{ row.c3 }}</div>
+            <div style="display:grid; grid-template-columns:1.2fr 1fr 1fr; border-bottom:1px solid #F3F4F6;">
+              <div style="padding:10px 16px; font-size:12px; color:#374151; font-weight:500;">{{ row.c1 }}</div>
+              <div style="padding:10px 16px; font-size:12px; color:#666;">{{ row.c2 }}</div>
+              <div style="padding:10px 16px; font-size:12px; color:#666;">{{ row.c3 }}</div>
             </div>
           </sc-for>
         </div>
@@ -1058,10 +1064,9 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <!-- Signature block (visible step 2+) -->
         <sc-if value="{{ foStep2Plus }}" hint-placeholder-val="{{ false }}">
         <div style="position:absolute; left:52px; bottom:80px; width:200px; border:1.5px solid var(--border-default); border-radius:6px; padding:12px; background:white;">
-          <div style="text-align:center; margin-bottom:6px;">
+          <div style="text-align:center;">
             <div style="font-family:'Brush Script MT','Segoe Script','Comic Sans MS',cursive; font-size:28px; color:#1a1a1a; line-height:1.2;">Dims Mbul</div>
           </div>
-          <div style="font-size:9px; color:var(--fg-subtle); text-align:center;">Signed By {{ displayName }}</div>
           <div style="position:absolute; top:-10px; right:-10px; width:22px; height:22px; background:var(--brand-action); border-radius:5px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
             <i class="pi pi-close" style="font-family:'Persona Icon'; font-size:11px; color:white;"></i>
           </div>
@@ -1162,34 +1167,51 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         </div>
         </sc-if>
 
-        <!-- Green approve banner -->
-        <div style="background:linear-gradient(135deg,#22C55E,#16A34A); border-radius:12px; padding:16px 20px; display:flex; align-items:center; gap:12px; margin-bottom:24px;">
-          <div style="width:32px; height:32px; background:rgba(255,255,255,.25); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <i class="pi pi-shield-check" style="font-family:'Persona Icon'; font-size:18px; color:white;"></i>
+        <!-- Approve checkbox -->
+        <label style="display:flex; align-items:center; gap:12px; background:linear-gradient(135deg,#22C55E,#16A34A); border-radius:12px; padding:16px 20px; margin-bottom:24px; cursor:pointer;">
+          <div style="width:22px; height:22px; border:2px solid rgba(255,255,255,.8); border-radius:5px; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span style="color:white; font-size:14px; font-weight:700;">✓</span>
           </div>
-          <div style="font-size:15px; font-weight:600; color:white;">I approve this document</div>
+          <div style="flex:1;">
+            <div style="font-size:14px; font-weight:600; color:white;">{{ t.foApproveLabel }}</div>
+            <div style="font-size:11px; color:rgba(255,255,255,.75); margin-top:2px;">{{ t.foApproveDesc }}</div>
+          </div>
+        </label>
+
+        <!-- PIN input -->
+        <div style="margin-bottom:20px;">
+          <div style="font-size:13px; font-weight:600; color:var(--fg-default); margin-bottom:4px;">{{ t.foPinTitle }}</div>
+          <div style="font-size:11.5px; color:var(--fg-subtle); margin-bottom:14px;">{{ t.foPinSubtitle }}</div>
+          <div style="display:flex; gap:8px; margin-bottom:6px;">
+            <sc-for list="{{ pinDigits }}" as="digit" hint-placeholder-count="6">
+              <div style="width:44px; height:52px; border:1.5px solid {{ digit.border }}; border-radius:10px; background:{{ digit.bg }}; display:flex; align-items:center; justify-content:center; font-size:20px; color:#333; font-weight:600; transition:all .15s;">{{ digit.char }}</div>
+            </sc-for>
+          </div>
         </div>
 
-        <!-- PIN -->
-        <div style="font-size:13px; font-weight:700; color:var(--fg-default); margin-bottom:14px;">Enter PIN</div>
-        <div style="display:flex; gap:10px; margin-bottom:20px;">
-          <sc-for list="{{ pinCells }}" as="cell" hint-placeholder-count="6">
-            <div style="width:46px; height:54px; border:1.5px solid #D0D0D0; border-radius:12px; background:white; box-shadow:0 1px 3px rgba(0,0,0,.06);"></div>
-          </sc-for>
+        <!-- Numpad -->
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:16px;">
+          <button onClick="{{ pinPress1 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">1</button>
+          <button onClick="{{ pinPress2 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">2</button>
+          <button onClick="{{ pinPress3 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">3</button>
+          <button onClick="{{ pinPress4 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">4</button>
+          <button onClick="{{ pinPress5 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">5</button>
+          <button onClick="{{ pinPress6 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">6</button>
+          <button onClick="{{ pinPress7 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">7</button>
+          <button onClick="{{ pinPress8 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">8</button>
+          <button onClick="{{ pinPress9 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">9</button>
+          <div></div>
+          <button onClick="{{ pinPress0 }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; font-weight:600; color:#333; cursor:pointer; font-family:inherit;">0</button>
+          <button onClick="{{ pinDelete }}" style="padding:14px; border:1px solid #E5E5E5; border-radius:10px; background:white; font-size:18px; color:#666; cursor:pointer; font-family:inherit;">⌫</button>
         </div>
 
-        <!-- Info box -->
-        <div style="background:var(--gray-5); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:10px;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <i class="pi pi-grid-view" style="font-family:'Persona Icon'; font-size:18px; color:var(--blue-50); flex-shrink:0;"></i>
-            <span style="font-size:13px; color:var(--fg-subtle); font-weight:500;">Please enter your 6-digit PIN</span>
-          </div>
-          <button onClick="{{ foCloseAuth }}" style="align-self:flex-start; padding:8px 16px; border:1.5px solid var(--border-default); border-radius:8px; background:white; font-size:13px; font-weight:600; color:var(--fg-default); cursor:pointer; font-family:var(--font-sans);">Change method</button>
-        </div>
+        <!-- Change method -->
+        <button onClick="{{ foCloseAuth }}" style="width:100%; padding:8px; border:1px solid var(--border-default); border-radius:8px; background:white; font-size:12px; font-weight:500; color:var(--fg-subtle); cursor:pointer; font-family:var(--font-sans);">{{ t.foChangeMethod }}</button>
       </div>
 
       <div style="padding:16px 20px; border-top:1px solid var(--border-subtle);">
-        <button onClick="{{ foDoSign }}" class="p-btn p-btn--lg p-btn--primary" style="width:100%; justify-content:center;">Sign</button>
+        <div style="font-size:11px; color:var(--fg-subtlest); text-align:center; margin-bottom:10px;">{{ t.foUserStatement }} <a style="color:var(--blue-50); text-decoration:underline; cursor:pointer;">{{ t.foUserStatementLink }}</a></div>
+        <button onClick="{{ foDoSign }}" class="p-btn p-btn--lg p-btn--primary" style="width:100%; justify-content:center; opacity:{{ pinSignOpacity }}; cursor:{{ pinSignCursor }};">{{ t.foSignBtn }}</button>
       </div>
     </div>
     </sc-if>
@@ -1765,6 +1787,7 @@ class Component extends DCLogic {
     shopPaySelected: false,
     shopEaQty: 2,
     showCertModal: false,
+    pinValue: '',
     isAuthorizedRep: null,
     docStep: 1,
     docSetupPanel: 'recipients',
@@ -1914,6 +1937,10 @@ class Component extends DCLogic {
         foChangeMethod: 'Ganti metode',
         foUserStatement: 'Dengan mengklik Tandatangani, Anda menyetujui',
         foUserStatementLink: 'Pernyataan Pengguna',
+        foApproveLabel: 'Saya menyetujui dokumen ini',
+        foApproveDesc: 'Dengan melanjutkan, Anda menyetujui isi dokumen ini secara sah.',
+        foPinTitle: 'Masukkan PIN',
+        foPinSubtitle: 'Masukkan 6 digit PIN Privy Anda',
         foPersonalCertTitle: 'Sertifikat Personal',
         foPersonalCertDesc: 'Dokumen ini akan ditandatangani menggunakan sertifikat personal Anda, bukan sertifikat terafiliasi enterprise.',
         foReasonLocked: 'Alasan terkunci untuk sertifikat personal',
@@ -2118,6 +2145,10 @@ class Component extends DCLogic {
         foSetDefault: 'Set as default method',
         foChangeMethod: 'Change method',
         foUserStatement: 'By clicking Sign, you agree to our',
+        foApproveLabel: 'I approve this document',
+        foApproveDesc: 'By continuing, you legally approve the contents of this document.',
+        foPinTitle: 'Enter PIN',
+        foPinSubtitle: 'Enter your 6-digit Privy PIN',
         foUserStatementLink: 'User Statement',
         foPersonalCertTitle: 'Personal Certificate',
         foPersonalCertDesc: 'This document will be signed using your personal certificate, not an enterprise-affiliated certificate.',
@@ -2511,8 +2542,30 @@ class Component extends DCLogic {
       foPlaceSignature: () => this.setState({ foStep: 2 }),
       foConfirm: () => this.setState({ foStep: 3 }),
       foSelectPin: () => this.setState({ foStep: 4 }),
-      foCloseAuth: () => this.setState({ foStep: 2 }),
-      foDoSign: () => this.setState({ screen: 'pending' }),
+      foCloseAuth: () => this.setState({ foStep: 2, pinValue: '' }),
+      foDoSign: () => { if (this.state.pinValue.length === 6) this.setState({ screen: 'pending', pinValue: '' }); },
+      pinDigits: Array.from({length:6}, (_, i) => {
+        const filled = i < s.pinValue.length;
+        const active = i === s.pinValue.length;
+        return {
+          char: filled ? '●' : '',
+          border: active ? 'var(--brand-action)' : filled ? '#22C55E' : '#D0D0D0',
+          bg: filled ? '#F0FDF4' : 'white',
+        };
+      }),
+      pinPress0: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '0' : p.pinValue })),
+      pinPress1: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '1' : p.pinValue })),
+      pinPress2: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '2' : p.pinValue })),
+      pinPress3: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '3' : p.pinValue })),
+      pinPress4: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '4' : p.pinValue })),
+      pinPress5: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '5' : p.pinValue })),
+      pinPress6: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '6' : p.pinValue })),
+      pinPress7: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '7' : p.pinValue })),
+      pinPress8: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '8' : p.pinValue })),
+      pinPress9: () => this.setState(p => ({ pinValue: p.pinValue.length < 6 ? p.pinValue + '9' : p.pinValue })),
+      pinDelete: () => this.setState(p => ({ pinValue: p.pinValue.slice(0, -1) })),
+      pinSignOpacity: s.pinValue.length === 6 ? 1 : 0.45,
+      pinSignCursor: s.pinValue.length === 6 ? 'pointer' : 'not-allowed',
 
       isVerified, isUnverified,
       statusText: isVerified ? 'VERIFIED' : 'UNVERIFIED',

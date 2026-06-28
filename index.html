@@ -254,236 +254,247 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
   </div>
   </sc-if>
 
-  <!-- ══ PRIVY SHOP MODAL ══ -->
+  <!-- ══ PRIVY SHOP SIDEBAR ══ -->
   <sc-if value="{{ showShop }}" hint-placeholder-val="{{ false }}">
-  <div style="position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9100; display:flex; align-items:center; justify-content:center;">
-    <div style="background:white; border-radius:16px; width:420px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 24px 64px rgba(0,0,0,.18); animation:fadeIn .2s ease; overflow:hidden;">
+  <div style="position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:9100;" onClick="{{ closeShop }}"></div>
+  <div style="position:fixed; top:0; right:0; bottom:0; width:420px; background:white; z-index:9200; display:flex; flex-direction:column; box-shadow:-8px 0 32px rgba(0,0,0,.12); animation:fadeIn .15s ease;">
 
-      <!-- STEP 1: Plan Selection -->
-      <sc-if value="{{ shopStep1 }}" hint-placeholder-val="{{ true }}">
-      <div style="padding:20px 24px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #F0F0F0;">
-        <span style="font-size:17px; font-weight:700; color:#111;">Privy Shop</span>
-        <button onClick="{{ closeShop }}" style="background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
+    <!-- STEP 1: Plan Selection -->
+    <sc-if value="{{ shopStep1 }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:20px 24px 16px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+      <span style="font-size:17px; font-weight:700; color:#111;">Privy Shop</span>
+      <button onClick="{{ closeShop }}" style="background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
+    </div>
+    <div style="flex:1; overflow-y:auto; padding:0 24px 20px;">
+      <!-- Tabs -->
+      <div style="display:flex; gap:0; border-bottom:2px solid #F0F0F0; margin-bottom:20px;">
+        <div style="padding:10px 18px; font-size:13px; color:#999; font-weight:500;">e-Meterai</div>
+        <div style="padding:10px 18px; font-size:13px; color:#1A73E8; font-weight:600; border-bottom:2px solid #1A73E8; margin-bottom:-2px; display:flex; align-items:center; gap:6px;"><span style="color:#E5352B;">⚠</span> {{ t.shopTabEA }}</div>
       </div>
-      <div style="flex:1; overflow-y:auto; padding:20px 24px;">
-        <!-- Tabs -->
-        <div style="display:flex; gap:0; border-bottom:2px solid #F0F0F0; margin-bottom:20px;">
-          <div style="padding:10px 18px; font-size:13px; color:#999; font-weight:500;">e-Meterai</div>
-          <div style="padding:10px 18px; font-size:13px; color:#1A73E8; font-weight:600; border-bottom:2px solid #1A73E8; margin-bottom:-2px; display:flex; align-items:center; gap:6px;">⚠ {{ t.shopTabEA }}</div>
+      <!-- Quota card -->
+      <div style="border:2px solid #1A73E8; border-radius:12px; padding:16px 20px; margin-bottom:20px;">
+        <div style="font-size:14px; font-weight:600; color:#111; margin-bottom:6px;">{{ t.shopTabEA }}</div>
+        <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:8px;">
+          <span style="font-size:28px; font-weight:700; color:#1A73E8;">{{ eaCount }}</span>
+          <span style="font-size:16px; color:#666;">{{ t.shopOf }} 5</span>
+          <button style="margin-left:auto; padding:6px 14px; border:1px solid #DDD; border-radius:6px; background:white; font-size:12px; color:#333; cursor:pointer; font-family:inherit;">{{ t.shopEditSeats }}</button>
         </div>
-        <!-- Quota card -->
-        <div style="border:2px solid #1A73E8; border-radius:12px; padding:16px 20px; margin-bottom:20px;">
-          <div style="font-size:14px; font-weight:600; color:#111; margin-bottom:6px;">{{ t.shopTabEA }}</div>
-          <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:8px;">
-            <span style="font-size:28px; font-weight:700; color:#1A73E8;">25</span>
-            <span style="font-size:16px; color:#666;">{{ t.shopOf }} 30</span>
-            <button style="margin-left:auto; padding:6px 14px; border:1px solid #DDD; border-radius:6px; background:white; font-size:12px; color:#333; cursor:pointer; font-family:inherit;">{{ t.shopEditSeats }}</button>
+        <div style="font-size:11.5px; color:#1A73E8; line-height:1.5;">{{ t.shopPlanExpiry }}</div>
+      </div>
+      <!-- Plan options -->
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <button onClick="{{ selectPlan12 }}" style="border:{{ plan12Border }}; border-radius:12px; padding:18px 20px; background:white; cursor:pointer; text-align:left; font-family:inherit;">
+          <div style="font-size:10px; font-weight:700; color:#1A73E8; text-transform:uppercase; letter-spacing:.8px; margin-bottom:6px;">{{ t.shop1Year }}</div>
+          <div style="display:flex; align-items:baseline; gap:8px;">
+            <span style="font-size:22px; font-weight:700; color:#111;">IDR 2,100,000</span>
+            <span style="font-size:13px; color:#666;">{{ t.shopPerSeatYear }}</span>
           </div>
-          <div style="font-size:11.5px; color:#1A73E8; line-height:1.5;">{{ t.shopPlanExpiry }}</div>
-        </div>
-        <!-- Plan options -->
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <button onClick="{{ selectPlan12 }}" style="border:{{ plan12Border }}; border-radius:12px; padding:18px 20px; background:white; cursor:pointer; text-align:left; font-family:inherit;">
-            <div style="font-size:10px; font-weight:700; color:#1A73E8; text-transform:uppercase; letter-spacing:.8px; margin-bottom:6px;">{{ t.shop1Year }}</div>
-            <div style="display:flex; align-items:baseline; gap:8px;">
-              <span style="font-size:22px; font-weight:700; color:#111;">IDR 2,100,000</span>
-              <span style="font-size:13px; color:#666;">{{ t.shopPerSeatYear }}</span>
-            </div>
-            <div style="font-size:12px; color:#999; margin-top:2px;">{{ t.shopBeforeTax }}</div>
-          </button>
-          <button onClick="{{ selectPlan3 }}" style="border:{{ plan3Border }}; border-radius:12px; padding:18px 20px; background:white; cursor:pointer; text-align:left; font-family:inherit;">
-            <div style="font-size:10px; font-weight:700; color:#1A73E8; text-transform:uppercase; letter-spacing:.8px; margin-bottom:6px;">{{ t.shop3Month }}</div>
-            <div style="display:flex; align-items:baseline; gap:8px;">
-              <span style="font-size:22px; font-weight:700; color:#111;">IDR 175,000</span>
-              <span style="font-size:13px; color:#666;">{{ t.shopPerSeatMonth }}</span>
-            </div>
-            <div style="font-size:12px; color:#999; margin-top:2px;">{{ t.shopBeforeTax }}</div>
-          </button>
-          <button onClick="{{ selectPlan1 }}" style="border:{{ plan1Border }}; border-radius:12px; padding:18px 20px; background:white; cursor:pointer; text-align:left; font-family:inherit;">
-            <div style="font-size:10px; font-weight:700; color:#1A73E8; text-transform:uppercase; letter-spacing:.8px; margin-bottom:6px;">{{ t.shop1Month }}</div>
-            <div style="display:flex; align-items:baseline; gap:8px;">
-              <span style="font-size:22px; font-weight:700; color:#111;">IDR 175,000</span>
-              <span style="font-size:13px; color:#666;">{{ t.shopPerSeatMonth }}</span>
-            </div>
-            <div style="font-size:12px; color:#999; margin-top:2px;">{{ t.shopBeforeTax }}</div>
-          </button>
-        </div>
-      </div>
-      <!-- Bottom bar -->
-      <div style="border-top:1px solid #F0F0F0; padding:16px 24px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-          <span style="font-size:14px; font-weight:600; color:#333;">{{ t.shopSummary }} ▴</span>
-          <div style="text-align:right;">
-            <div style="font-size:18px; font-weight:700; color:#1A73E8;">{{ shopTotalPrice }}</div>
-            <div style="font-size:12px; color:#999;">{{ shopItemCount }}</div>
+          <div style="font-size:12px; color:#999; margin-top:2px;">{{ t.shopBeforeTax }}</div>
+        </button>
+        <button onClick="{{ selectPlan3 }}" style="border:{{ plan3Border }}; border-radius:12px; padding:18px 20px; background:white; cursor:pointer; text-align:left; font-family:inherit;">
+          <div style="font-size:10px; font-weight:700; color:#1A73E8; text-transform:uppercase; letter-spacing:.8px; margin-bottom:6px;">{{ t.shop3Month }}</div>
+          <div style="display:flex; align-items:baseline; gap:8px;">
+            <span style="font-size:22px; font-weight:700; color:#111;">IDR 175,000</span>
+            <span style="font-size:13px; color:#666;">{{ t.shopPerSeatMonth }}</span>
           </div>
-        </div>
-        <button onClick="{{ goShopPayment }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:{{ shopBuyBtnBg }}; font-size:15px; font-weight:700; color:white; cursor:{{ shopBuyCursor }}; font-family:inherit;">{{ t.shopBuyBtn }}</button>
+          <div style="font-size:12px; color:#999; margin-top:2px;">{{ t.shopBeforeTax }}</div>
+        </button>
+        <button onClick="{{ selectPlan1 }}" style="border:{{ plan1Border }}; border-radius:12px; padding:18px 20px; background:white; cursor:pointer; text-align:left; font-family:inherit;">
+          <div style="font-size:10px; font-weight:700; color:#1A73E8; text-transform:uppercase; letter-spacing:.8px; margin-bottom:6px;">{{ t.shop1Month }}</div>
+          <div style="display:flex; align-items:baseline; gap:8px;">
+            <span style="font-size:22px; font-weight:700; color:#111;">IDR 175,000</span>
+            <span style="font-size:13px; color:#666;">{{ t.shopPerSeatMonth }}</span>
+          </div>
+          <div style="font-size:12px; color:#999; margin-top:2px;">{{ t.shopBeforeTax }}</div>
+        </button>
       </div>
-      </sc-if>
+    </div>
+    <!-- Bottom bar -->
+    <div style="border-top:1px solid #F0F0F0; padding:16px 24px; flex-shrink:0; background:#FAFAFA;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+        <span style="font-size:14px; font-weight:600; color:#333;">{{ t.shopSummary }} ▴</span>
+        <div style="text-align:right;">
+          <div style="font-size:18px; font-weight:700; color:#1A73E8;">{{ shopTotalPrice }}</div>
+          <div style="font-size:12px; color:#999;">{{ shopItemCount }}</div>
+        </div>
+      </div>
+      <button onClick="{{ goShopPayment }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:{{ shopBuyBtnBg }}; font-size:15px; font-weight:700; color:white; cursor:{{ shopBuyCursor }}; font-family:inherit;">{{ t.shopBuyBtn }}</button>
+    </div>
+    </sc-if>
 
-      <!-- STEP 2: Payment Method -->
-      <sc-if value="{{ shopStep2 }}" hint-placeholder-val="{{ false }}">
-      <div style="padding:20px 24px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #F0F0F0;">
-        <button onClick="{{ shopBackToPlans }}" style="background:none; border:none; font-size:18px; color:#333; cursor:pointer;">‹</button>
-        <span style="font-size:17px; font-weight:700; color:#111;">{{ t.shopPayMethodTitle }}</span>
-        <button onClick="{{ closeShop }}" style="margin-left:auto; background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
-      </div>
-      <div style="flex:1; overflow-y:auto; padding:20px 24px;">
-        <div style="border-bottom:1px solid #F0F0F0; padding-bottom:20px; margin-bottom:20px;">
-          <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">TRANSFER QR</div>
-          <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; font-size:14px; color:#333; font-weight:500;">
-            <span style="font-size:16px; font-weight:800; font-family:monospace; letter-spacing:1px;">QRIS</span> QRIS
-          </div>
-        </div>
-        <div style="border-bottom:1px solid #F0F0F0; padding-bottom:20px; margin-bottom:20px;">
-          <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">E-WALLET</div>
-          <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; font-size:14px; color:#333; font-weight:500;">
-            <span style="font-size:13px; font-weight:700; color:#00AED6;">● gopay</span> Gopay
-          </div>
-        </div>
-        <div style="border-bottom:1px solid #F0F0F0; padding-bottom:20px; margin-bottom:20px;">
-          <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">TRANSFER BANK</div>
-          <div style="display:flex; flex-direction:column; gap:8px;">
-            <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; font-size:14px; color:#333; font-weight:500;">
-              <span style="font-size:12px; font-weight:800; color:#003D79;">BCA</span> BCA
-            </div>
-            <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; font-size:14px; color:#333; font-weight:500;">
-              <span style="font-size:12px; font-weight:800; color:#F15A22;">BNI</span> BNI
-            </div>
-            <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; font-size:14px; color:#333; font-weight:500;">
-              <span style="font-size:12px; font-weight:800; color:#0060AF;">BRI</span> BRI
-            </div>
-            <button onClick="{{ selectMandiri }}" style="border:{{ mandiriBorder }}; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; font-size:14px; color:#333; font-weight:500; background:white; cursor:pointer; text-align:left; font-family:inherit;">
-              <span style="font-size:12px; font-weight:800; color:#003366;">mandiri</span> Mandiri {{ mandiriCheck }}
-            </button>
-            <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; font-size:14px; color:#333; font-weight:500;">
-              <span style="font-size:12px; font-weight:800; color:#6C3A97;">Permata</span> Permata
-            </div>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">CREDIT CARD</div>
-          <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; font-size:14px; color:#333; font-weight:500;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="font-size:16px;">💳</span> {{ t.shopCreditCard }}
-            </div>
-            <span style="color:#CCC;">›</span>
-          </div>
+    <!-- STEP 2: Payment Method -->
+    <sc-if value="{{ shopStep2 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px 24px 16px; display:flex; align-items:center; gap:12px; flex-shrink:0; border-bottom:1px solid #F0F0F0;">
+      <button onClick="{{ shopBackToPlans }}" style="background:none; border:none; font-size:20px; color:#333; cursor:pointer; padding:0;">‹</button>
+      <span style="font-size:17px; font-weight:700; color:#111;">{{ t.shopPayMethodTitle }}</span>
+      <button onClick="{{ closeShop }}" style="margin-left:auto; background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
+    </div>
+    <div style="flex:1; overflow-y:auto; padding:20px 24px;">
+      <div style="margin-bottom:24px;">
+        <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">TRANSFER QR</div>
+        <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px;">
+          <span style="font-size:15px; font-weight:800; font-family:monospace; letter-spacing:1px; color:#333;">QRIS</span>
+          <span style="font-size:14px; color:#333; font-weight:500;">QRIS</span>
         </div>
       </div>
-      <div style="border-top:1px solid #F0F0F0; padding:16px 24px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-          <span style="font-size:14px; font-weight:600; color:#333;">Total ▴</span>
-          <span style="font-size:18px; font-weight:700; color:#1A73E8;">{{ shopPayTotal }}</span>
+      <div style="margin-bottom:24px;">
+        <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">E-WALLET</div>
+        <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px;">
+          <span style="font-size:13px; font-weight:700; color:#00AED6;">●</span>
+          <span style="font-size:13px; font-weight:700; color:#00AED6;">gopay</span>
+          <span style="font-size:14px; color:#333; font-weight:500;">Gopay</span>
         </div>
-        <button onClick="{{ goShopConfirm }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:{{ shopPayBtnBg }}; font-size:15px; font-weight:700; color:white; cursor:{{ shopPayCursor }}; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px;">🛡 {{ t.shopPayBtn }}</button>
       </div>
-      </sc-if>
+      <div style="margin-bottom:24px;">
+        <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">TRANSFER BANK</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px;">
+            <div style="width:48px; height:20px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#003D79; flex-shrink:0;">BCA</div>
+            <span style="font-size:14px; color:#333; font-weight:500;">BCA</span>
+          </div>
+          <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px;">
+            <div style="width:48px; height:20px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#F15A22; flex-shrink:0;">BNI</div>
+            <span style="font-size:14px; color:#333; font-weight:500;">BNI</span>
+          </div>
+          <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px;">
+            <div style="width:48px; height:20px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#0060AF; flex-shrink:0;">BRI</div>
+            <span style="font-size:14px; color:#333; font-weight:500;">BRI</span>
+          </div>
+          <button onClick="{{ selectMandiri }}" style="border:{{ mandiriBorder }}; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px; background:white; cursor:pointer; text-align:left; font-family:inherit; width:100%;">
+            <div style="width:48px; height:20px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#003366; flex-shrink:0;">mandiri</div>
+            <span style="font-size:14px; color:#333; font-weight:500; flex:1;">Mandiri</span>
+            <sc-if value="{{ shopPaySelected }}" hint-placeholder-val="{{ false }}">
+            <span style="color:#1A73E8; font-size:18px;">✓</span>
+            </sc-if>
+          </button>
+          <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:14px;">
+            <div style="width:48px; height:20px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#6C3A97; flex-shrink:0;">Permata</div>
+            <span style="font-size:14px; color:#333; font-weight:500;">Permata</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">CREDIT CARD</div>
+        <div style="border:1px solid #EEE; border-radius:10px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:16px;">💳</span>
+            <span style="font-size:14px; color:#333; font-weight:500;">{{ t.shopCreditCard }}</span>
+          </div>
+          <span style="color:#CCC; font-size:18px;">›</span>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid #F0F0F0; padding:16px 24px; flex-shrink:0; background:#FAFAFA;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+        <span style="font-size:14px; font-weight:600; color:#333;">Total ▴</span>
+        <span style="font-size:18px; font-weight:700; color:#1A73E8;">{{ shopPayTotal }}</span>
+      </div>
+      <button onClick="{{ goShopConfirm }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:{{ shopPayBtnBg }}; font-size:15px; font-weight:700; color:white; cursor:{{ shopPayCursor }}; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px;">🛡 {{ t.shopPayBtn }}</button>
+    </div>
+    </sc-if>
 
-      <!-- STEP 3: Confirmation -->
-      <sc-if value="{{ shopStep3 }}" hint-placeholder-val="{{ false }}">
-      <div style="padding:20px 24px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #F0F0F0;">
-        <button onClick="{{ shopBackToPayment }}" style="background:none; border:none; font-size:18px; color:#333; cursor:pointer;">‹</button>
-        <span style="font-size:17px; font-weight:700; color:#111;">{{ t.shopConfirmTitle }}</span>
-        <button onClick="{{ closeShop }}" style="margin-left:auto; background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
-      </div>
-      <div style="flex:1; overflow-y:auto; padding:20px 24px;">
-        <div style="margin-bottom:24px;">
-          <div style="font-size:16px; font-weight:700; color:#111; margin-bottom:4px;">{{ t.shopTabEA }}</div>
-          <div style="font-size:12px; color:#999; margin-bottom:16px;">(Rp 175.000 / {{ t.shopAccPerMonth }})</div>
+    <!-- STEP 3: Confirmation -->
+    <sc-if value="{{ shopStep3 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px 24px 16px; display:flex; align-items:center; gap:12px; flex-shrink:0; border-bottom:1px solid #F0F0F0;">
+      <button onClick="{{ shopBackToPayment }}" style="background:none; border:none; font-size:20px; color:#333; cursor:pointer; padding:0;">‹</button>
+      <span style="font-size:17px; font-weight:700; color:#111;">{{ t.shopConfirmTitle }}</span>
+      <button onClick="{{ closeShop }}" style="margin-left:auto; background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
+    </div>
+    <div style="flex:1; overflow-y:auto; padding:20px 24px;">
+      <div style="margin-bottom:24px;">
+        <div style="font-size:16px; font-weight:700; color:#111; margin-bottom:4px;">{{ t.shopTabEA }}</div>
+        <div style="font-size:12px; color:#999; margin-bottom:16px;">(Rp 175.000 / {{ t.shopAccPerMonth }})</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:13px; color:#333;">{{ t.shopNewAccounts }}</span>
+          <span style="font-size:13px; font-weight:600; color:#333;">Rp 350.000</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span style="font-size:12px; color:#999;">{{ t.shopRemaining }}</span>
+          <span style="font-size:12px; color:#999;">x 1</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+          <span style="font-size:13px; font-weight:600; color:#333;">{{ t.shopAmount }}</span>
+          <span style="font-size:13px; font-weight:600; color:#333;">Rp 350.000</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+          <span style="font-size:12px; color:#999;">PPN = 11% x {{ t.shopAmountLower }}</span>
+          <span style="font-size:12px; color:#999;">Rp 38.000</span>
+        </div>
+        <div style="border-top:1px solid #F0F0F0; padding-top:12px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-size:13px; color:#333;">{{ t.shopNewAccounts }}</span>
-            <span style="font-size:13px; font-weight:600; color:#333;">Rp 350.000</span>
+            <span style="font-size:13px; color:#333;">{{ t.shopAllAccounts }}</span>
+            <span style="font-size:13px; font-weight:600; color:#333;">Rp 5.600.000</span>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-size:12px; color:#999;">{{ t.shopRemaining }}</span>
-            <span style="font-size:12px; color:#999;">x 1</span>
+            <span style="font-size:12px; color:#999;">{{ t.shopActiveUntil }}</span>
+            <span style="font-size:12px; color:#999;">x 12</span>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
             <span style="font-size:13px; font-weight:600; color:#333;">{{ t.shopAmount }}</span>
-            <span style="font-size:13px; font-weight:600; color:#333;">Rp 350.000</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
-            <span style="font-size:12px; color:#999;">PPN = 11% x {{ t.shopAmountLower }}</span>
-            <span style="font-size:12px; color:#999;">Rp 38.000</span>
-          </div>
-          <div style="border-top:1px solid #F0F0F0; padding-top:12px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-              <span style="font-size:13px; color:#333;">{{ t.shopAllAccounts }}</span>
-              <span style="font-size:13px; font-weight:600; color:#333;">Rp 5.600.000</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-              <span style="font-size:12px; color:#999;">{{ t.shopActiveUntil }}</span>
-              <span style="font-size:12px; color:#999;">x 12</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-              <span style="font-size:13px; font-weight:600; color:#333;">{{ t.shopAmount }}</span>
-              <span style="font-size:13px; font-weight:600; color:#333;">Rp 67.200.000</span>
-            </div>
-            <div style="display:flex; justify-content:space-between;">
-              <span style="font-size:12px; color:#999;">PPN = 11% x {{ t.shopAmountLower }}</span>
-              <span style="font-size:12px; color:#999;">Rp 7.392.000</span>
-            </div>
-          </div>
-        </div>
-        <div style="border-top:2px solid #EEE; padding-top:16px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="font-size:14px; font-weight:700; color:#333;">Subtotal <span style="font-weight:400; color:#999;">(25 item)</span></span>
-            <span style="font-size:14px; font-weight:700; color:#333;">Rp 67.550.000</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <div><div style="font-size:12px; color:#999;">{{ t.shopDiscount }}</div><div style="font-size:13px; color:#333;">0%</div></div>
-            <span style="font-size:13px; color:#333;">Rp 0</span>
+            <span style="font-size:13px; font-weight:600; color:#333;">Rp 67.200.000</span>
           </div>
           <div style="display:flex; justify-content:space-between;">
-            <span style="font-size:14px; font-weight:700; color:#333;">{{ t.shopTax }}</span>
-            <span style="font-size:14px; font-weight:700; color:#333;">Rp 7.430.000</span>
+            <span style="font-size:12px; color:#999;">PPN = 11% x {{ t.shopAmountLower }}</span>
+            <span style="font-size:12px; color:#999;">Rp 7.392.000</span>
           </div>
         </div>
       </div>
-      <div style="border-top:1px solid #F0F0F0; padding:16px 24px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-          <span style="font-size:15px; font-weight:700; color:#333;">Total</span>
-          <span style="font-size:20px; font-weight:700; color:#1A73E8;">Rp 74.980.000</span>
+      <div style="border-top:2px solid #EEE; padding-top:16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="font-size:14px; font-weight:700; color:#333;">Subtotal <span style="font-weight:400; color:#999;">(25 item)</span></span>
+          <span style="font-size:14px; font-weight:700; color:#333;">Rp 67.550.000</span>
         </div>
-        <label style="display:flex; align-items:center; gap:8px; margin-bottom:14px; cursor:pointer;">
-          <input type="checkbox" style="width:16px; height:16px; accent-color:#1A73E8;" />
-          <span style="font-size:13px; color:#333;">{{ t.shopInvoiceCheck }}</span>
-        </label>
-        <button onClick="{{ goShopSuccess }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:#E5352B; font-size:15px; font-weight:700; color:white; cursor:pointer; font-family:inherit;">{{ t.shopConfirmPayBtn }}</button>
-      </div>
-      </sc-if>
-
-      <!-- STEP 4: Success -->
-      <sc-if value="{{ shopStep4 }}" hint-placeholder-val="{{ false }}">
-      <div style="padding:20px 24px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #F0F0F0;">
-        <span style="font-size:17px; font-weight:700; color:#111;">{{ t.shopStatusTitle }}</span>
-        <button onClick="{{ closeShop }}" style="background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
-      </div>
-      <div style="flex:1; overflow-y:auto; padding:40px 24px; text-align:center;">
-        <div style="width:120px; height:120px; background:#F0FDF4; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 24px;">
-          <span style="font-size:48px;">✅</span>
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <div><div style="font-size:12px; color:#999;">{{ t.shopDiscount }}</div><div style="font-size:13px; color:#333;">0%</div></div>
+          <span style="font-size:13px; color:#333;">Rp 0</span>
         </div>
-        <div style="font-size:20px; font-weight:700; color:#111; margin-bottom:10px;">{{ t.shopSuccessTitle }}</div>
-        <div style="font-size:14px; color:#666; line-height:1.6; margin-bottom:28px;">{{ t.shopSuccessDesc }}</div>
-        <div style="background:#FAFAFA; border:1px solid #EEE; border-radius:12px; padding:16px 20px; text-align:left;">
-          <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F0F0F0;">
-            <span style="font-size:13px; color:#666;">{{ t.shopAmountPaid }}</span>
-            <span style="font-size:13px; font-weight:600; color:#333;">Rp 74.980.000</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:10px 0;">
-            <span style="font-size:13px; color:#666;">{{ t.shopPayMethod }}</span>
-            <span style="font-size:13px; font-weight:600; color:#333;">Mandiri</span>
-          </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="font-size:14px; font-weight:700; color:#333;">{{ t.shopTax }}</span>
+          <span style="font-size:14px; font-weight:700; color:#333;">Rp 7.430.000</span>
         </div>
       </div>
-      <div style="border-top:1px solid #F0F0F0; padding:16px 24px;">
-        <button onClick="{{ closeShop }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:#1A73E8; font-size:15px; font-weight:700; color:white; cursor:pointer; font-family:inherit;">{{ t.shopDone }}</button>
-      </div>
-      </sc-if>
-
     </div>
+    <div style="border-top:1px solid #F0F0F0; padding:16px 24px; flex-shrink:0; background:#FAFAFA;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <span style="font-size:15px; font-weight:700; color:#333;">Total</span>
+        <span style="font-size:20px; font-weight:700; color:#1A73E8;">Rp 74.980.000</span>
+      </div>
+      <label style="display:flex; align-items:center; gap:8px; margin-bottom:14px; cursor:pointer;">
+        <input type="checkbox" style="width:16px; height:16px; accent-color:#1A73E8;" />
+        <span style="font-size:13px; color:#333;">{{ t.shopInvoiceCheck }}</span>
+      </label>
+      <button onClick="{{ goShopSuccess }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:#E5352B; font-size:15px; font-weight:700; color:white; cursor:pointer; font-family:inherit;">{{ t.shopConfirmPayBtn }}</button>
+    </div>
+    </sc-if>
+
+    <!-- STEP 4: Success -->
+    <sc-if value="{{ shopStep4 }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:20px 24px 16px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; border-bottom:1px solid #F0F0F0;">
+      <span style="font-size:17px; font-weight:700; color:#111;">{{ t.shopStatusTitle }}</span>
+      <button onClick="{{ closeShop }}" style="background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
+    </div>
+    <div style="flex:1; overflow-y:auto; padding:40px 24px; text-align:center;">
+      <div style="width:120px; height:120px; background:#F0FDF4; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 24px;">
+        <span style="font-size:48px;">✅</span>
+      </div>
+      <div style="font-size:20px; font-weight:700; color:#111; margin-bottom:10px;">{{ t.shopSuccessTitle }}</div>
+      <div style="font-size:14px; color:#666; line-height:1.6; margin-bottom:28px;">{{ t.shopSuccessDesc }}</div>
+      <div style="background:#FAFAFA; border:1px solid #EEE; border-radius:12px; padding:16px 20px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F0F0F0;">
+          <span style="font-size:13px; color:#666;">{{ t.shopAmountPaid }}</span>
+          <span style="font-size:13px; font-weight:600; color:#333;">Rp 74.980.000</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding:10px 0;">
+          <span style="font-size:13px; color:#666;">{{ t.shopPayMethod }}</span>
+          <span style="font-size:13px; font-weight:600; color:#333;">Mandiri</span>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid #F0F0F0; padding:16px 24px; flex-shrink:0;">
+      <button onClick="{{ closeShop }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:#1A73E8; font-size:15px; font-weight:700; color:white; cursor:pointer; font-family:inherit;">{{ t.shopDone }}</button>
+    </div>
+    </sc-if>
+
   </div>
   </sc-if>
 
@@ -2328,7 +2339,7 @@ class Component extends DCLogic {
       shopBackToPlans: () => this.setState({ shopStep: 1 }),
       selectMandiri: () => this.setState({ shopPaySelected: true }),
       mandiriBorder: s.shopPaySelected ? '2px solid #1A73E8' : '1px solid #EEE',
-      mandiriCheck: s.shopPaySelected ? '✓' : '',
+      shopPaySelected: s.shopPaySelected,
       shopPayTotal: 'Rp 10.804.750',
       shopPayBtnBg: s.shopPaySelected ? '#E5352B' : '#CCC',
       shopPayCursor: s.shopPaySelected ? 'pointer' : 'not-allowed',

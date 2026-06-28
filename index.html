@@ -686,7 +686,6 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <div style="flex:1;">
           <div style="font-size:14px; font-weight:600; color:#991B1B; margin-bottom:2px;">{{ t.restrictedTitle }}</div>
           <div style="font-size:13px; color:#B91C1C; line-height:1.5;">{{ t.restrictedDesc }} <a onClick="{{ goUploadFromModal }}" style="color:var(--brand-action); text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.restrictedLink }}</a></div>
-          <div style="margin-top:6px;"><a onClick="{{ openCertModal }}" style="font-size:12px; color:#991B1B; text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.certCta }}</a></div>
         </div>
         <button class="p-btn p-btn--ghost p-btn--sm" onClick="{{ dismissBanner }}" style="flex-shrink:0; color:#B91C1C;">
           <i class="pi pi-close" style="font-family:'Persona Icon'; font-size:14px;"></i>
@@ -720,7 +719,6 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <div style="flex:1;">
           <div style="font-size:14px; font-weight:600; color:#92400E; margin-bottom:2px;">{{ t.playgroundTitle }}</div>
           <div style="font-size:13px; color:#B45309; line-height:1.5;">{{ t.playgroundDesc }} <a onClick="{{ goUploadFromModal }}" style="color:#92400E; text-decoration:underline; cursor:pointer; font-weight:600;">{{ t.playgroundLink }}</a> {{ t.playgroundLinkSuffix }}</div>
-          <div style="margin-top:6px;"><a onClick="{{ openCertModal }}" style="font-size:12px; color:#92400E; text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.certCta }}</a></div>
         </div>
         <button class="p-btn p-btn--ghost p-btn--sm" onClick="{{ dismissBanner }}" style="flex-shrink:0; color:#B45309;">
           <i class="pi pi-close" style="font-family:'Persona Icon'; font-size:14px;"></i>
@@ -1176,9 +1174,16 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
 
         <!-- PIN input -->
         <div style="margin-bottom:20px;">
-          <div style="font-size:13px; font-weight:600; color:var(--fg-default); margin-bottom:4px;">{{ t.foPinTitle }}</div>
-          <div style="font-size:11.5px; color:var(--fg-subtle); margin-bottom:14px;">{{ t.foPinSubtitle }}</div>
-          <input onInput="{{ onPinInput }}" type="password" maxlength="6" inputmode="numeric" placeholder="••••••" style="width:100%; padding:14px 16px; border:1.5px solid {{ pinInputBorder }}; border-radius:10px; font-size:24px; letter-spacing:12px; text-align:center; color:#333; font-family:inherit; outline:none; background:{{ pinInputBg }};" />
+          <div style="font-size:13px; font-weight:600; color:var(--fg-default); margin-bottom:12px;">{{ t.foPinTitle }}</div>
+          <div style="display:flex; gap:8px;">
+            <input onInput="{{ onPin1 }}" onKeyDown="{{ onPinKey1 }}" type="tel" maxlength="1" inputmode="numeric" data-pin="0" style="width:44px; height:52px; border:1.5px solid {{ pin1Border }}; border-radius:10px; font-size:20px; text-align:center; color:#333; font-family:inherit; outline:none; background:white; -webkit-text-security:disc;" />
+            <input onInput="{{ onPin2 }}" onKeyDown="{{ onPinKey2 }}" type="tel" maxlength="1" inputmode="numeric" data-pin="1" style="width:44px; height:52px; border:1.5px solid {{ pin2Border }}; border-radius:10px; font-size:20px; text-align:center; color:#333; font-family:inherit; outline:none; background:white; -webkit-text-security:disc;" />
+            <input onInput="{{ onPin3 }}" onKeyDown="{{ onPinKey3 }}" type="tel" maxlength="1" inputmode="numeric" data-pin="2" style="width:44px; height:52px; border:1.5px solid {{ pin3Border }}; border-radius:10px; font-size:20px; text-align:center; color:#333; font-family:inherit; outline:none; background:white; -webkit-text-security:disc;" />
+            <input onInput="{{ onPin4 }}" onKeyDown="{{ onPinKey4 }}" type="tel" maxlength="1" inputmode="numeric" data-pin="3" style="width:44px; height:52px; border:1.5px solid {{ pin4Border }}; border-radius:10px; font-size:20px; text-align:center; color:#333; font-family:inherit; outline:none; background:white; -webkit-text-security:disc;" />
+            <input onInput="{{ onPin5 }}" onKeyDown="{{ onPinKey5 }}" type="tel" maxlength="1" inputmode="numeric" data-pin="4" style="width:44px; height:52px; border:1.5px solid {{ pin5Border }}; border-radius:10px; font-size:20px; text-align:center; color:#333; font-family:inherit; outline:none; background:white; -webkit-text-security:disc;" />
+            <input onInput="{{ onPin6 }}" onKeyDown="{{ onPinKey6 }}" type="tel" maxlength="1" inputmode="numeric" data-pin="5" style="width:44px; height:52px; border:1.5px solid {{ pin6Border }}; border-radius:10px; font-size:20px; text-align:center; color:#333; font-family:inherit; outline:none; background:white; -webkit-text-security:disc;" />
+          </div>
+          <div style="font-size:11px; color:var(--fg-subtlest); margin-top:8px;">{{ t.foPinSubtitle }}</div>
         </div>
 
         <!-- Change method -->
@@ -2520,13 +2525,35 @@ class Component extends DCLogic {
       foSelectPin: () => this.setState({ foStep: 4 }),
       foCloseAuth: () => this.setState({ foStep: 2, pinValue: '' }),
       foDoSign: () => { if (this.state.pinValue.length === 6) this.setState({ screen: 'pending', pinValue: '' }); },
-      onPinInput: (e) => {
-        const val = e.target.value.replace(/\D/g, '').slice(0, 6);
-        e.target.value = val;
-        this.setState({ pinValue: val });
-      },
-      pinInputBorder: s.pinValue.length === 6 ? '#22C55E' : s.pinValue.length > 0 ? 'var(--brand-action)' : '#D0D0D0',
-      pinInputBg: s.pinValue.length === 6 ? '#F0FDF4' : 'white',
+      ...(() => {
+        const pinLen = s.pinValue.length;
+        const mkInput = (idx) => (e) => {
+          const v = e.target.value.replace(/\D/g, '');
+          if (!v) return;
+          e.target.value = v.charAt(0);
+          const chars = this.state.pinValue.split('');
+          chars[idx] = v.charAt(0);
+          const newPin = chars.join('').slice(0, 6);
+          this.setState({ pinValue: newPin });
+          const next = e.target.parentElement.querySelector('[data-pin="' + (idx + 1) + '"]');
+          if (next) next.focus();
+        };
+        const mkKey = (idx) => (e) => {
+          if (e.key === 'Backspace' && !e.target.value) {
+            const prev = e.target.parentElement.querySelector('[data-pin="' + (idx - 1) + '"]');
+            if (prev) { prev.focus(); prev.value = ''; }
+            const chars = this.state.pinValue.split('');
+            chars.splice(idx - 1, 1);
+            this.setState({ pinValue: chars.join('') });
+          }
+        };
+        const border = (idx) => idx < pinLen ? '#22C55E' : idx === pinLen ? 'var(--brand-action)' : '#D0D0D0';
+        return {
+          onPin1: mkInput(0), onPin2: mkInput(1), onPin3: mkInput(2), onPin4: mkInput(3), onPin5: mkInput(4), onPin6: mkInput(5),
+          onPinKey1: mkKey(0), onPinKey2: mkKey(1), onPinKey3: mkKey(2), onPinKey4: mkKey(3), onPinKey5: mkKey(4), onPinKey6: mkKey(5),
+          pin1Border: border(0), pin2Border: border(1), pin3Border: border(2), pin4Border: border(3), pin5Border: border(4), pin6Border: border(5),
+        };
+      })(),
       pinSignOpacity: s.pinValue.length === 6 ? 1 : 0.45,
       pinSignCursor: s.pinValue.length === 6 ? 'pointer' : 'not-allowed',
 

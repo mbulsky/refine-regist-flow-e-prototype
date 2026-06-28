@@ -1355,6 +1355,15 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
           <button onClick="{{ setResHardReject }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #E5352B; background:#FFF0F0; font-size:12px; font-weight:500; color:#E5352B; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">✕ Hard Reject</button>
         </div>
       </div>
+      <!-- Kondisi Unverified -->
+      <div>
+        <div style="font-size:10px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px;">Kondisi Unverified</div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <button onClick="{{ setModeRestricted }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid {{ modeBorderRestricted }}; background:{{ modeBgRestricted }}; font-size:12px; font-weight:500; color:{{ modeColorRestricted }}; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">🔒 Restricted</button>
+          <button onClick="{{ setModePersonalCert }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid {{ modeBorderPersonalCert }}; background:{{ modeBgPersonalCert }}; font-size:12px; font-weight:500; color:{{ modeColorPersonalCert }}; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">📄 Personal Cert</button>
+          <button onClick="{{ setModePlayground }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid {{ modeBorderPlayground }}; background:{{ modeBgPlayground }}; font-size:12px; font-weight:500; color:{{ modeColorPlayground }}; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">🎮 Playground</button>
+        </div>
+      </div>
       <!-- Autofill Registrasi -->
       <div>
         <div style="font-size:10px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px;">Autofill Registrasi</div>
@@ -1452,6 +1461,7 @@ class Component extends DCLogic {
     showTncModal: false,
     showSettingsPanel: false,
     autoFillOn: false,
+    unverifiedMode: '',
     isAuthorizedRep: null,
     docStep: 1,
     docSetupPanel: 'recipients',
@@ -1827,7 +1837,7 @@ class Component extends DCLogic {
     const pinCells = Array.from({length:6}, (_, i) => ({ char: '●', border: i === 5 ? 'var(--brand-action)' : 'var(--border-default)' }));
 
     // ── Unverified mode logic ──
-    const uMode = this.props.unverifiedMode ?? 'restricted';
+    const uMode = s.unverifiedMode || this.props.unverifiedMode || 'restricted';
     const isRestricted   = isUnverified && uMode === 'restricted';
     const isPersonalCert = isUnverified && uMode === 'personal-cert';
     const isPlayground   = isUnverified && uMode === 'playground';
@@ -1961,6 +1971,18 @@ class Component extends DCLogic {
       autoFillBg:     s.autoFillOn ? '#EFF3FB' : '#FAFAFA',
       autoFillColor:  s.autoFillOn ? '#1F3864' : '#666',
       autoFillLabel:  s.autoFillOn ? '✓ Autofill ON' : '○ Autofill OFF',
+      setModeRestricted:   () => this.setState({ unverifiedMode: 'restricted', verificationStatus: 'unverified', showBanner: true }),
+      setModePersonalCert: () => this.setState({ unverifiedMode: 'personal-cert', verificationStatus: 'unverified', showBanner: true }),
+      setModePlayground:   () => this.setState({ unverifiedMode: 'playground', verificationStatus: 'unverified', showBanner: true }),
+      modeBorderRestricted:   uMode === 'restricted'   ? '#1F3864' : '#E5E5E5',
+      modeBgRestricted:       uMode === 'restricted'   ? '#EFF3FB' : 'white',
+      modeColorRestricted:    uMode === 'restricted'   ? '#1F3864' : '#666',
+      modeBorderPersonalCert: uMode === 'personal-cert' ? '#1F3864' : '#E5E5E5',
+      modeBgPersonalCert:     uMode === 'personal-cert' ? '#EFF3FB' : 'white',
+      modeColorPersonalCert:  uMode === 'personal-cert' ? '#1F3864' : '#666',
+      modeBorderPlayground:   uMode === 'playground'   ? '#1F3864' : '#E5E5E5',
+      modeBgPlayground:       uMode === 'playground'   ? '#EFF3FB' : 'white',
+      modeColorPlayground:    uMode === 'playground'   ? '#1F3864' : '#666',
 
       // ── Unverified mode ──
       isRestricted, isPersonalCert, isPlayground,

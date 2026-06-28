@@ -577,38 +577,6 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
   </div>
 </div>
 
-<!-- ══ FLOATING SETTINGS PANEL (outside d-app grid) ══ -->
-<div style="position:fixed; bottom:24px; right:24px; z-index:8500; display:flex; flex-direction:column; align-items:flex-end; gap:8px; pointer-events:none;">
-  <sc-if value="{{ showSettingsPanel }}" hint-placeholder-val="{{ false }}">
-  <div style="background:white; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,.15); width:260px; overflow:hidden; pointer-events:auto;">
-    <div style="background:#1F3864; padding:12px 16px; display:flex; align-items:center; justify-content:space-between;">
-      <span style="font-size:13px; font-weight:600; color:white;">⚙ Demo Settings</span>
-      <button onClick="{{ toggleSettings }}" style="background:rgba(255,255,255,.2); border:none; border-radius:6px; width:26px; height:26px; cursor:pointer; color:white; font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; line-height:1;">−</button>
-    </div>
-    <div style="padding:14px 16px; display:flex; flex-direction:column; gap:14px;">
-      <!-- Language -->
-      <div>
-        <div style="font-size:10px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px;">Bahasa</div>
-        <div style="display:flex; gap:6px;">
-          <button onClick="{{ setLangId }}" style="flex:1; padding:7px; border-radius:8px; border:1.5px solid #1F3864; background:{{ panelLangIdBg }}; color:{{ panelLangIdColor }}; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit;">ID</button>
-          <button onClick="{{ setLangEn }}" style="flex:1; padding:7px; border-radius:8px; border:1.5px solid #E5E5E5; background:{{ panelLangEnBg }}; color:{{ panelLangEnColor }}; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit;">EN</button>
-        </div>
-      </div>
-      <!-- Hasil Verifikasi -->
-      <div>
-        <div style="font-size:10px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px;">Hasil Verifikasi</div>
-        <div style="display:flex; flex-direction:column; gap:5px;">
-          <button onClick="{{ setResVerified }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #22C55E; background:#F0FDF4; font-size:12px; font-weight:500; color:#15803D; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">✓ Verified</button>
-          <button onClick="{{ setResSoftReject }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #F59E0B; background:#FFFBEB; font-size:12px; font-weight:500; color:#B45309; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">⚠ Soft Reject</button>
-          <button onClick="{{ setResHardReject }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #E5352B; background:#FFF0F0; font-size:12px; font-weight:500; color:#E5352B; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">✕ Hard Reject</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  </sc-if>
-  <button onClick="{{ toggleSettings }}" style="width:44px; height:44px; background:#1F3864; border:none; border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 14px rgba(31,56,100,.35); font-size:20px; pointer-events:auto;">⚙️</button>
-</div>
-
 </div>
 </sc-if>
 
@@ -1360,6 +1328,38 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
   </div>
 </div>
 </sc-if>
+
+<!-- ══ FLOATING SETTINGS PANEL ══ -->
+<div style="position:fixed; bottom:24px; right:24px; z-index:8500; display:flex; flex-direction:column; align-items:flex-end; gap:8px; pointer-events:none;">
+  <sc-if value="{{ showSettingsPanel }}" hint-placeholder-val="{{ false }}">
+  <div style="background:white; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,.15); width:260px; overflow:hidden; pointer-events:auto;">
+    <div style="background:#1F3864; padding:12px 16px; display:flex; align-items:center; justify-content:space-between;">
+      <span style="font-size:13px; font-weight:600; color:white;">⚙ Demo Settings</span>
+      <button onClick="{{ toggleSettings }}" style="background:rgba(255,255,255,.2); border:none; border-radius:6px; width:26px; height:26px; cursor:pointer; color:white; font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; line-height:1;">−</button>
+    </div>
+    <div style="padding:14px 16px; display:flex; flex-direction:column; gap:14px;">
+      <!-- Language -->
+      <div>
+        <div style="font-size:10px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px;">Bahasa</div>
+        <div style="display:flex; gap:6px;">
+          <button onClick="{{ setLangId }}" style="flex:1; padding:7px; border-radius:8px; border:1.5px solid #1F3864; background:{{ panelLangIdBg }}; color:{{ panelLangIdColor }}; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit;">ID</button>
+          <button onClick="{{ setLangEn }}" style="flex:1; padding:7px; border-radius:8px; border:1.5px solid #E5E5E5; background:{{ panelLangEnBg }}; color:{{ panelLangEnColor }}; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit;">EN</button>
+        </div>
+      </div>
+      <!-- Hasil Verifikasi -->
+      <div>
+        <div style="font-size:10px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px;">Hasil Verifikasi</div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <button onClick="{{ setResVerified }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #22C55E; background:#F0FDF4; font-size:12px; font-weight:500; color:#15803D; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">✓ Verified</button>
+          <button onClick="{{ setResSoftReject }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #F59E0B; background:#FFFBEB; font-size:12px; font-weight:500; color:#B45309; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">⚠ Soft Reject</button>
+          <button onClick="{{ setResHardReject }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #E5352B; background:#FFF0F0; font-size:12px; font-weight:500; color:#E5352B; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">✕ Hard Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+  <button onClick="{{ toggleSettings }}" style="width:44px; height:44px; background:#1F3864; border:none; border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 14px rgba(31,56,100,.35); font-size:20px; pointer-events:auto;">⚙️</button>
+</div>
 
 </div>
 </x-dc>

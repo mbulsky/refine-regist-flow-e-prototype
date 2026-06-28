@@ -1355,6 +1355,11 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
           <button onClick="{{ setResHardReject }}" style="padding:8px 12px; border-radius:8px; border:1.5px solid #E5352B; background:#FFF0F0; font-size:12px; font-weight:500; color:#E5352B; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">✕ Hard Reject</button>
         </div>
       </div>
+      <!-- Autofill Registrasi -->
+      <div>
+        <div style="font-size:10px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px;">Autofill Registrasi</div>
+        <button onClick="{{ toggleAutoFill }}" style="width:100%; padding:8px 12px; border-radius:8px; border:1.5px solid {{ autoFillBorder }}; background:{{ autoFillBg }}; font-size:12px; font-weight:500; color:{{ autoFillColor }}; cursor:pointer; font-family:inherit; text-align:left; display:flex; align-items:center; gap:7px;">{{ autoFillLabel }}</button>
+      </div>
     </div>
   </div>
   </sc-if>
@@ -1446,6 +1451,7 @@ class Component extends DCLogic {
     showVerifModal: false,
     showTncModal: false,
     showSettingsPanel: false,
+    autoFillOn: false,
     isAuthorizedRep: null,
     docStep: 1,
     docSetupPanel: 'recipients',
@@ -1922,6 +1928,16 @@ class Component extends DCLogic {
       setLangEn: () => this.setState({ language: 'en' }),
       showSettingsPanel: s.showSettingsPanel,
       toggleSettings: () => this.setState(p => ({ showSettingsPanel: !p.showSettingsPanel })),
+      autoFillOn: s.autoFillOn,
+      toggleAutoFill: () => {
+        const willEnable = !this.state.autoFillOn;
+        if (willEnable) {
+          this._applyAutofill();
+        } else {
+          this.setState({ form: { privyId: '', workEmail: '', phone: '', companyName: '', sector: '', website: '', tnc: false } });
+        }
+        this.setState({ autoFillOn: willEnable });
+      },
       setUnverifiedRestricted:   () => this.setState({ verificationStatus: 'unverified' }),
       setUnverifiedPersonalCert: () => this.setState({ verificationStatus: 'unverified' }),
       setUnverifiedPlayground:   () => this.setState({ verificationStatus: 'unverified' }),
@@ -1941,6 +1957,10 @@ class Component extends DCLogic {
       panelLangIdColor: lang === 'id' ? 'white'   : '#666',
       panelLangEnBg:    lang === 'en' ? '#1F3864' : 'white',
       panelLangEnColor: lang === 'en' ? 'white'   : '#666',
+      autoFillBorder: s.autoFillOn ? '#1F3864' : '#E5E5E5',
+      autoFillBg:     s.autoFillOn ? '#EFF3FB' : '#FAFAFA',
+      autoFillColor:  s.autoFillOn ? '#1F3864' : '#666',
+      autoFillLabel:  s.autoFillOn ? '✓ Autofill ON' : '○ Autofill OFF',
 
       // ── Unverified mode ──
       isRestricted, isPersonalCert, isPlayground,

@@ -34,7 +34,7 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
 <div style="min-height:100vh; background:#EDEAE5; display:flex; flex-direction:column;">
 
   <!-- Top Nav -->
-  <div style="background:#1F3864; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:56px; flex-shrink:0;">
+  <div style="background:#E5352B; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:56px; flex-shrink:0;">
     <div style="display:flex; align-items:center; gap:12px;">
       <img src="./ds/assets/logo-privy.svg" alt="Privy" style="height:28px; width:auto; filter:brightness(0) invert(1);" />
       <div style="width:1px; height:20px; background:rgba(255,255,255,.25); margin:0 4px;"></div>
@@ -140,7 +140,7 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
       </button>
 
       <!-- Support Banner -->
-      <div style="background:#1F3864; border-radius:12px; padding:18px 20px; display:flex; align-items:center; gap:16px;">
+      <div style="background:#E5352B; border-radius:12px; padding:18px 20px; display:flex; align-items:center; gap:16px;">
         <div style="width:40px; height:40px; background:rgba(255,255,255,.12); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;">🎧</div>
         <div style="flex:1; min-width:0;">
           <div style="font-size:13.5px; font-weight:700; color:white; margin-bottom:3px;">{{ t.supportTitle }}</div>
@@ -254,6 +254,59 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
   </div>
   </sc-if>
 
+  <!-- ══ CERT COMPARISON MODAL ══ -->
+  <sc-if value="{{ showCertModal }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:9500; display:flex; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:white; border-radius:16px; width:680px; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 24px 64px rgba(0,0,0,.2); animation:fadeIn .2s ease; overflow:hidden;">
+      <div style="padding:20px 24px 16px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; border-bottom:1px solid #F0F0F0;">
+        <span style="font-size:17px; font-weight:700; color:#111;">{{ t.certModalTitle }}</span>
+        <button onClick="{{ closeCertModal }}" style="background:none; border:none; font-size:22px; color:#999; cursor:pointer; line-height:1;">✕</button>
+      </div>
+      <div style="flex:1; overflow-y:auto; padding:24px;">
+        <div style="font-size:13.5px; color:#666; line-height:1.6; margin-bottom:24px;">{{ t.certModalIntro }}</div>
+
+        <!-- Personal -->
+        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:18px 20px; margin-bottom:16px;">
+          <div style="font-size:15px; font-weight:700; color:#1E40AF; margin-bottom:8px;">{{ t.certPersonalTitle }}</div>
+          <div style="font-size:13px; color:#1E40AF; line-height:1.5; margin-bottom:12px;">{{ t.certPersonalDesc }}</div>
+          <sc-for list="{{ certPersonalList }}" as="item" hint-placeholder-count="6">
+            <div style="font-size:12.5px; color:#1E3A5F; line-height:1.6; padding:3px 0 3px 14px; border-left:2px solid #93C5FD;">{{ item.text }}</div>
+          </sc-for>
+        </div>
+
+        <!-- Affiliated -->
+        <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:12px; padding:18px 20px; margin-bottom:24px;">
+          <div style="font-size:15px; font-weight:700; color:#991B1B; margin-bottom:8px;">{{ t.certAffTitle }}</div>
+          <div style="font-size:13px; color:#991B1B; line-height:1.5; margin-bottom:12px;">{{ t.certAffDesc }}</div>
+          <sc-for list="{{ certAffList }}" as="item" hint-placeholder-count="6">
+            <div style="font-size:12.5px; color:#7F1D1D; line-height:1.6; padding:3px 0 3px 14px; border-left:2px solid #FCA5A5;">{{ item.text }}</div>
+          </sc-for>
+        </div>
+
+        <!-- Table -->
+        <div style="font-size:15px; font-weight:700; color:#111; margin-bottom:12px;">{{ t.certTableTitle }}</div>
+        <div style="border:1px solid #E5E7EB; border-radius:10px; overflow:hidden;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; background:#F9FAFB; border-bottom:1px solid #E5E7EB;">
+            <div style="padding:10px 14px; font-size:12px; font-weight:700; color:#374151;">{{ t.certTh1 }}</div>
+            <div style="padding:10px 14px; font-size:12px; font-weight:700; color:#1E40AF;">{{ t.certTh2 }}</div>
+            <div style="padding:10px 14px; font-size:12px; font-weight:700; color:#991B1B;">{{ t.certTh3 }}</div>
+          </div>
+          <sc-for list="{{ certTableRows }}" as="row" hint-placeholder-count="6">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid #F3F4F6;">
+              <div style="padding:10px 14px; font-size:12px; color:#374151; font-weight:500;">{{ row.c1 }}</div>
+              <div style="padding:10px 14px; font-size:12px; color:#666;">{{ row.c2 }}</div>
+              <div style="padding:10px 14px; font-size:12px; color:#666;">{{ row.c3 }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="border-top:1px solid #F0F0F0; padding:16px 24px; flex-shrink:0;">
+        <button onClick="{{ closeCertModal }}" style="width:100%; padding:12px; border:none; border-radius:10px; background:#E5352B; font-size:14px; font-weight:700; color:white; cursor:pointer; font-family:inherit;">{{ t.certClose }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
   <!-- ══ PRIVY SHOP SIDEBAR ══ -->
   <sc-if value="{{ showShop }}" hint-placeholder-val="{{ false }}">
   <div style="position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:9100;" onClick="{{ closeShop }}"></div>
@@ -274,10 +327,14 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
       <!-- Quota card -->
       <div style="border:2px solid #1A73E8; border-radius:12px; padding:16px 20px; margin-bottom:20px;">
         <div style="font-size:14px; font-weight:600; color:#111; margin-bottom:6px;">{{ t.shopTabEA }}</div>
-        <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
           <span style="font-size:28px; font-weight:700; color:#1A73E8;">{{ eaCount }}</span>
           <span style="font-size:16px; color:#666;">{{ t.shopOf }} 5</span>
-          <button style="margin-left:auto; padding:6px 14px; border:1px solid #DDD; border-radius:6px; background:white; font-size:12px; color:#333; cursor:pointer; font-family:inherit;">{{ t.shopEditSeats }}</button>
+          <div style="margin-left:auto; display:flex; align-items:center; gap:0; border:1px solid #DDD; border-radius:8px; overflow:hidden;">
+            <button onClick="{{ shopEaDown }}" style="width:32px; height:32px; border:none; background:#F5F5F5; font-size:16px; font-weight:700; color:#333; cursor:pointer; display:flex; align-items:center; justify-content:center;">−</button>
+            <span style="width:36px; text-align:center; font-size:14px; font-weight:600; color:#111;">{{ shopEaQty }}</span>
+            <button onClick="{{ shopEaUp }}" style="width:32px; height:32px; border:none; background:#F5F5F5; font-size:16px; font-weight:700; color:#333; cursor:pointer; display:flex; align-items:center; justify-content:center;">+</button>
+          </div>
         </div>
         <div style="font-size:11.5px; color:#1A73E8; line-height:1.5;">{{ t.shopPlanExpiry }}</div>
       </div>
@@ -405,8 +462,8 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <div style="font-size:16px; font-weight:700; color:#111; margin-bottom:4px;">{{ t.shopTabEA }}</div>
         <div style="font-size:12px; color:#999; margin-bottom:16px;">(Rp 175.000 / {{ t.shopAccPerMonth }})</div>
         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-          <span style="font-size:13px; color:#333;">{{ t.shopNewAccounts }}</span>
-          <span style="font-size:13px; font-weight:600; color:#333;">Rp 350.000</span>
+          <span style="font-size:13px; color:#333;">{{ shopCalc.newLabel }}</span>
+          <span style="font-size:13px; font-weight:600; color:#333;">{{ shopCalc.newCost }}</span>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
           <span style="font-size:12px; color:#999;">{{ t.shopRemaining }}</span>
@@ -414,35 +471,35 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
           <span style="font-size:13px; font-weight:600; color:#333;">{{ t.shopAmount }}</span>
-          <span style="font-size:13px; font-weight:600; color:#333;">Rp 350.000</span>
+          <span style="font-size:13px; font-weight:600; color:#333;">{{ shopCalc.newTotal }}</span>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
           <span style="font-size:12px; color:#999;">PPN = 11% x {{ t.shopAmountLower }}</span>
-          <span style="font-size:12px; color:#999;">Rp 38.000</span>
+          <span style="font-size:12px; color:#999;">{{ shopCalc.newTax }}</span>
         </div>
         <div style="border-top:1px solid #F0F0F0; padding-top:12px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-size:13px; color:#333;">{{ t.shopAllAccounts }}</span>
-            <span style="font-size:13px; font-weight:600; color:#333;">Rp 5.600.000</span>
+            <span style="font-size:13px; color:#333;">{{ shopCalc.allLabel }}</span>
+            <span style="font-size:13px; font-weight:600; color:#333;">{{ shopCalc.allCost }}</span>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-size:12px; color:#999;">{{ t.shopActiveUntil }}</span>
+            <span style="font-size:12px; color:#999;">{{ shopCalc.activeLabel }}</span>
             <span style="font-size:12px; color:#999;">x 12</span>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
             <span style="font-size:13px; font-weight:600; color:#333;">{{ t.shopAmount }}</span>
-            <span style="font-size:13px; font-weight:600; color:#333;">Rp 67.200.000</span>
+            <span style="font-size:13px; font-weight:600; color:#333;">{{ shopCalc.allTotal }}</span>
           </div>
           <div style="display:flex; justify-content:space-between;">
             <span style="font-size:12px; color:#999;">PPN = 11% x {{ t.shopAmountLower }}</span>
-            <span style="font-size:12px; color:#999;">Rp 7.392.000</span>
+            <span style="font-size:12px; color:#999;">{{ shopCalc.allTax }}</span>
           </div>
         </div>
       </div>
       <div style="border-top:2px solid #EEE; padding-top:16px;">
         <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-          <span style="font-size:14px; font-weight:700; color:#333;">Subtotal <span style="font-weight:400; color:#999;">(25 item)</span></span>
-          <span style="font-size:14px; font-weight:700; color:#333;">Rp 67.550.000</span>
+          <span style="font-size:14px; font-weight:700; color:#333;">Subtotal <span style="font-weight:400; color:#999;">({{ shopCalc.itemCount }})</span></span>
+          <span style="font-size:14px; font-weight:700; color:#333;">{{ shopCalc.subtotal }}</span>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
           <div><div style="font-size:12px; color:#999;">{{ t.shopDiscount }}</div><div style="font-size:13px; color:#333;">0%</div></div>
@@ -450,14 +507,14 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         </div>
         <div style="display:flex; justify-content:space-between;">
           <span style="font-size:14px; font-weight:700; color:#333;">{{ t.shopTax }}</span>
-          <span style="font-size:14px; font-weight:700; color:#333;">Rp 7.430.000</span>
+          <span style="font-size:14px; font-weight:700; color:#333;">{{ shopCalc.tax }}</span>
         </div>
       </div>
     </div>
     <div style="border-top:1px solid #F0F0F0; padding:16px 24px; flex-shrink:0; background:#FAFAFA;">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
         <span style="font-size:15px; font-weight:700; color:#333;">Total</span>
-        <span style="font-size:20px; font-weight:700; color:#1A73E8;">Rp 74.980.000</span>
+        <span style="font-size:20px; font-weight:700; color:#1A73E8;">{{ shopCalc.grand }}</span>
       </div>
       <label style="display:flex; align-items:center; gap:8px; margin-bottom:14px; cursor:pointer;">
         <input type="checkbox" style="width:16px; height:16px; accent-color:#1A73E8;" />
@@ -482,7 +539,7 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
       <div style="background:#FAFAFA; border:1px solid #EEE; border-radius:12px; padding:16px 20px; text-align:left;">
         <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F0F0F0;">
           <span style="font-size:13px; color:#666;">{{ t.shopAmountPaid }}</span>
-          <span style="font-size:13px; font-weight:600; color:#333;">Rp 74.980.000</span>
+          <span style="font-size:13px; font-weight:600; color:#333;">{{ shopCalc.grand }}</span>
         </div>
         <div style="display:flex; justify-content:space-between; padding:10px 0;">
           <span style="font-size:13px; color:#666;">{{ t.shopPayMethod }}</span>
@@ -627,6 +684,7 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <div style="flex:1;">
           <div style="font-size:14px; font-weight:600; color:#991B1B; margin-bottom:2px;">{{ t.restrictedTitle }}</div>
           <div style="font-size:13px; color:#B91C1C; line-height:1.5;">{{ t.restrictedDesc }} <a onClick="{{ goUploadFromModal }}" style="color:var(--brand-action); text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.restrictedLink }}</a></div>
+          <div style="margin-top:6px;"><a onClick="{{ openCertModal }}" style="font-size:12px; color:#991B1B; text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.certCta }}</a></div>
         </div>
         <button class="p-btn p-btn--ghost p-btn--sm" onClick="{{ dismissBanner }}" style="flex-shrink:0; color:#B91C1C;">
           <i class="pi pi-close" style="font-family:'Persona Icon'; font-size:14px;"></i>
@@ -643,6 +701,7 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <div style="flex:1;">
           <div style="font-size:14px; font-weight:600; color:var(--fg-info); margin-bottom:2px;">{{ t.personalCertTitle }}</div>
           <div style="font-size:13px; color:var(--fg-info); line-height:1.5;">{{ t.personalCertDesc }} <a onClick="{{ goUploadFromModal }}" style="color:var(--blue-50); text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.personalCertLink }}</a></div>
+          <div style="margin-top:6px;"><a onClick="{{ openCertModal }}" style="font-size:12px; color:var(--blue-50); text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.certCta }}</a></div>
         </div>
         <button class="p-btn p-btn--ghost p-btn--sm" onClick="{{ dismissBanner }}" style="flex-shrink:0; color:var(--fg-subtle);">
           <i class="pi pi-close" style="font-family:'Persona Icon'; font-size:14px;"></i>
@@ -659,6 +718,7 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <div style="flex:1;">
           <div style="font-size:14px; font-weight:600; color:#92400E; margin-bottom:2px;">{{ t.playgroundTitle }}</div>
           <div style="font-size:13px; color:#B45309; line-height:1.5;">{{ t.playgroundDesc }} <a onClick="{{ goUploadFromModal }}" style="color:#92400E; text-decoration:underline; cursor:pointer; font-weight:600;">{{ t.playgroundLink }}</a> {{ t.playgroundLinkSuffix }}</div>
+          <div style="margin-top:6px;"><a onClick="{{ openCertModal }}" style="font-size:12px; color:#92400E; text-decoration:underline; cursor:pointer; font-weight:500;">{{ t.certCta }}</a></div>
         </div>
         <button class="p-btn p-btn--ghost p-btn--sm" onClick="{{ dismissBanner }}" style="flex-shrink:0; color:#B45309;">
           <i class="pi pi-close" style="font-family:'Persona Icon'; font-size:14px;"></i>
@@ -998,12 +1058,8 @@ body { margin:0; padding:0; font-family:var(--font-sans); }
         <!-- Signature block (visible step 2+) -->
         <sc-if value="{{ foStep2Plus }}" hint-placeholder-val="{{ false }}">
         <div style="position:absolute; left:52px; bottom:80px; width:200px; border:1.5px solid var(--border-default); border-radius:6px; padding:12px; background:white;">
-          <div style="display:flex; flex-direction:column; gap:2px; align-items:center; margin-bottom:6px;">
-            <div style="display:flex; gap:1px;">
-              <sc-for list="{{ barcodeBars }}" as="bar" hint-placeholder-count="40">
-                <div style="width:{{ bar.w }}px; height:32px; background:black; border-radius:0;"></div>
-              </sc-for>
-            </div>
+          <div style="text-align:center; margin-bottom:6px;">
+            <div style="font-family:'Brush Script MT','Segoe Script','Comic Sans MS',cursive; font-size:28px; color:#1a1a1a; line-height:1.2;">Dims Mbul</div>
           </div>
           <div style="font-size:9px; color:var(--fg-subtle); text-align:center;">Signed By {{ displayName }}</div>
           <div style="position:absolute; top:-10px; right:-10px; width:22px; height:22px; background:var(--brand-action); border-radius:5px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
@@ -1707,6 +1763,8 @@ class Component extends DCLogic {
     shopStep: 1,
     shopPlan: '',
     shopPaySelected: false,
+    shopEaQty: 2,
+    showCertModal: false,
     isAuthorizedRep: null,
     docStep: 1,
     docSetupPanel: 'recipients',
@@ -1875,6 +1933,25 @@ class Component extends DCLogic {
         verifModalS3:'Tim Privy memverifikasi dokumen Anda',
         verifModalCta:'Upload Dokumen Verifikasi',
         verifModalDismiss:'Nanti saja',
+        // Cert comparison
+        certCta:'Apa bedanya sertifikat personal & terafiliasi?',
+        certModalTitle:'Sertifikat Personal vs. Sertifikat Terafiliasi di Privy',
+        certModalIntro:'Ini adalah dua jenis sertifikat elektronik yang diterbitkan Privy selaku PSrE, tapi untuk konteks dan entitas yang berbeda.',
+        certPersonalTitle:'🔵 Sertifikat Personal',
+        certPersonalDesc:'Sertifikat yang diterbitkan langsung ke individu dalam konteks Personal Plan — tidak terikat dengan perusahaan manapun.',
+        certPersonalItems:'Pemilik: User PrivyID secara mandiri|Konteks: Personal Plan (bukan Enterprise)|Cara terbit: User mendaftar, verifikasi KTP + liveness detection sendiri|Atribut sertifikat (X.509 DN): Hanya mencantumkan nama individu — CN=Nama User, O=Privy|Lifecycle: Dikelola sendiri oleh user, revoke hanya bisa dilakukan user atau Privy|Use case: Tanda tangan kontrak sewa, perjanjian pinjaman, dokumen pribadi, CPNS, dll.',
+        certAffTitle:'🔴 Sertifikat Terafiliasi (Affiliated Certificate)',
+        certAffDesc:'Sertifikat yang diterbitkan untuk Employee Account (EA) dalam konteks Enterprise — secara kriptografis mencantumkan identitas individu plus afiliasi ke organisasi/perusahaan.',
+        certAffItems:'Pemilik: Individu (EA), tapi terafiliasi ke EnterpriseID tertentu|Konteks: Enterprise Plan — diinisiasi oleh Admin Enterprise|Cara terbit: Admin mengundang user sebagai EA → user accept invitation → sertifikat diterbitkan oleh Privy atas permintaan enterprise|Atribut sertifikat (X.509 DN): Mencantumkan nama individu dan nama organisasi — CN=Nama User, O=Nama Perusahaan|Lifecycle: Terkait masa aktif sebagai EA. Admin bisa revoke saat user resign/offboard|Use case: Tanda tangan kontrak kerja, PKS, approval dokumen internal, B2B contract, dll.',
+        certTableTitle:'Perbedaan Kunci',
+        certTh1:'Aspek', certTh2:'Sertifikat Personal', certTh3:'Sertifikat Terafiliasi',
+        certR1:'Mencantumkan nama perusahaan|✗ Tidak|✓ Ya (atribut O/OU)',
+        certR2:'Dikelola via Admin Center|✗ Tidak|✓ Ya',
+        certR3:'Biaya ditanggung oleh|User sendiri|Enterprise',
+        certR4:'Proses penerbitan|Self-service|Admin inisiasi → user accept',
+        certR5:'Bisa direvoke admin saat resign|✗ Tidak|✓ Ya',
+        certR6:'Kekuatan hukum TTE|Level 3/4|Level 3/4 + representasi jabatan',
+        certClose:'Tutup',
         // Shop
         shopTabEA:'Akun karyawan', shopOf:'dari', shopEditSeats:'Edit seats',
         shopPlanExpiry:'Enterprise Plan akan kedaluwarsa ketika masa aktif akun karyawan berakhir',
@@ -2061,6 +2138,25 @@ class Component extends DCLogic {
         verifModalS3:'Privy team verifies your documents',
         verifModalCta:'Upload Verification Documents',
         verifModalDismiss:'Maybe later',
+        // Cert comparison
+        certCta:'What\'s the difference between personal & affiliated certificates?',
+        certModalTitle:'Personal Certificate vs. Affiliated Certificate in Privy',
+        certModalIntro:'These are two types of electronic certificates issued by Privy as a PSrE, but for different contexts and entities.',
+        certPersonalTitle:'🔵 Personal Certificate',
+        certPersonalDesc:'A certificate issued directly to an individual in the context of a Personal Plan — not tied to any company.',
+        certPersonalItems:'Owner: PrivyID user independently|Context: Personal Plan (not Enterprise)|Issuance: User registers, self-verifies with KTP + liveness detection|Certificate attribute (X.509 DN): Only lists individual name — CN=User Name, O=Privy|Lifecycle: Self-managed by user, revocation only by user or Privy|Use case: Signing rental contracts, loan agreements, personal documents, CPNS, etc.',
+        certAffTitle:'🔴 Affiliated Certificate',
+        certAffDesc:'A certificate issued for an Employee Account (EA) in the Enterprise context — cryptographically includes individual identity plus affiliation to an organization/company.',
+        certAffItems:'Owner: Individual (EA), but affiliated to a specific EnterpriseID|Context: Enterprise Plan — initiated by Enterprise Admin|Issuance: Admin invites user as EA → user accepts invitation → certificate issued by Privy on enterprise request|Certificate attribute (X.509 DN): Lists individual name and organization name — CN=User Name, O=Company Name|Lifecycle: Tied to EA active period. Admin can revoke when user resigns/offboards|Use case: Signing employment contracts, MoUs, internal document approvals, B2B contracts, etc.',
+        certTableTitle:'Key Differences',
+        certTh1:'Aspect', certTh2:'Personal Certificate', certTh3:'Affiliated Certificate',
+        certR1:'Lists company name|✗ No|✓ Yes (O/OU attribute)',
+        certR2:'Managed via Admin Center|✗ No|✓ Yes',
+        certR3:'Cost borne by|User|Enterprise',
+        certR4:'Issuance process|Self-service|Admin initiates → user accepts',
+        certR5:'Admin can revoke on resign|✗ No|✓ Yes',
+        certR6:'Legal validity of e-Signature|Level 3/4|Level 3/4 + role representation',
+        certClose:'Close',
         // Shop
         shopTabEA:'Employee account', shopOf:'of', shopEditSeats:'Edit seats',
         shopPlanExpiry:'Enterprise Plan will expire when the employee account active period ends',
@@ -2269,9 +2365,9 @@ class Component extends DCLogic {
       curUMode: uMode,
       curVStatus: s.verificationStatus,
       langIdBg: lang === 'id' ? 'white' : 'transparent',
-      langIdColor: lang === 'id' ? '#1F3864' : 'rgba(255,255,255,.7)',
+      langIdColor: lang === 'id' ? '#E5352B' : 'rgba(255,255,255,.7)',
       langEnBg: lang === 'en' ? 'white' : 'transparent',
-      langEnColor: lang === 'en' ? '#1F3864' : 'rgba(255,255,255,.7)',
+      langEnColor: lang === 'en' ? '#E5352B' : 'rgba(255,255,255,.7)',
       panelLangIdBg:    lang === 'id' ? '#1F3864' : 'white',
       panelLangIdColor: lang === 'id' ? 'white'   : '#666',
       panelLangEnBg:    lang === 'en' ? '#1F3864' : 'white',
@@ -2317,22 +2413,43 @@ class Component extends DCLogic {
       goUploadFromModal: () => this.setState({ showVerifModal: false, screen: 'upload-docs', isAuthorizedRep: null }),
       closeVerifModal:   () => this.setState({ showVerifModal: false }),
 
+      // Cert modal
+      showCertModal: s.showCertModal,
+      openCertModal: () => this.setState({ showCertModal: true }),
+      closeCertModal: () => this.setState({ showCertModal: false }),
+      certPersonalList: (t.certPersonalItems || '').split('|').map(text => ({ text })),
+      certAffList: (t.certAffItems || '').split('|').map(text => ({ text })),
+      certTableRows: [t.certR1, t.certR2, t.certR3, t.certR4, t.certR5, t.certR6].map(r => {
+        const parts = (r || '').split('|');
+        return { c1: parts[0] || '', c2: parts[1] || '', c3: parts[2] || '' };
+      }),
+
       // Shop
       showShop: s.shopOpen,
       shopStep1: s.shopStep === 1,
       shopStep2: s.shopStep === 2,
       shopStep3: s.shopStep === 3,
       shopStep4: s.shopStep === 4,
-      openShop: () => this.setState({ shopOpen: true, shopStep: 1, shopPlan: '', shopPaySelected: false }),
+      openShop: () => this.setState({ shopOpen: true, shopStep: 1, shopPlan: '', shopPaySelected: false, shopEaQty: 2 }),
       closeShop: () => this.setState({ shopOpen: false, shopStep: 1, shopPlan: '', shopPaySelected: false }),
+      shopEaQty: s.shopEaQty,
+      shopEaUp: () => this.setState(p => ({ shopEaQty: Math.min(p.shopEaQty + 1, 50) })),
+      shopEaDown: () => this.setState(p => ({ shopEaQty: Math.max(p.shopEaQty - 1, 1) })),
       selectPlan12: () => this.setState({ shopPlan: '12' }),
       selectPlan3: () => this.setState({ shopPlan: '3' }),
       selectPlan1: () => this.setState({ shopPlan: '1' }),
       plan12Border: s.shopPlan === '12' ? '2px solid #1A73E8' : '1px solid #EEE',
       plan3Border: s.shopPlan === '3' ? '2px solid #1A73E8' : '1px solid #EEE',
       plan1Border: s.shopPlan === '1' ? '2px solid #1A73E8' : '1px solid #EEE',
-      shopTotalPrice: s.shopPlan ? 'Rp 74.980.000' : 'Rp 0',
-      shopItemCount: s.shopPlan ? '25 Item' : '0 Item',
+      shopTotalPrice: (() => {
+        if (!s.shopPlan) return 'Rp 0';
+        const pricePerMonth = 175000;
+        const months = s.shopPlan === '12' ? 12 : s.shopPlan === '3' ? 3 : 1;
+        const subtotal = s.shopEaQty * pricePerMonth * months;
+        const tax = Math.round(subtotal * 0.11);
+        return 'Rp ' + (subtotal + tax).toLocaleString('id-ID');
+      })(),
+      shopItemCount: s.shopPlan ? s.shopEaQty + ' Item' : '0 Item',
       shopBuyBtnBg: s.shopPlan ? '#E5352B' : '#CCC',
       shopBuyCursor: s.shopPlan ? 'pointer' : 'not-allowed',
       goShopPayment: () => { if (this.state.shopPlan) this.setState({ shopStep: 2 }); },
@@ -2340,12 +2457,41 @@ class Component extends DCLogic {
       selectMandiri: () => this.setState({ shopPaySelected: true }),
       mandiriBorder: s.shopPaySelected ? '2px solid #1A73E8' : '1px solid #EEE',
       shopPaySelected: s.shopPaySelected,
-      shopPayTotal: 'Rp 10.804.750',
+      shopPayTotal: (() => {
+        const pricePerMonth = 175000;
+        const months = s.shopPlan === '12' ? 12 : s.shopPlan === '3' ? 3 : 1;
+        const subtotal = s.shopEaQty * pricePerMonth * months;
+        const tax = Math.round(subtotal * 0.11);
+        return 'Rp ' + (subtotal + tax).toLocaleString('id-ID');
+      })(),
       shopPayBtnBg: s.shopPaySelected ? '#E5352B' : '#CCC',
       shopPayCursor: s.shopPaySelected ? 'pointer' : 'not-allowed',
       goShopConfirm: () => { if (this.state.shopPaySelected) this.setState({ shopStep: 3 }); },
       shopBackToPayment: () => this.setState({ shopStep: 2 }),
       goShopSuccess: () => this.setState({ shopStep: 4 }),
+      shopCalc: (() => {
+        const qty = s.shopEaQty;
+        const months = s.shopPlan === '12' ? 12 : s.shopPlan === '3' ? 3 : 1;
+        const fmt = (n) => 'Rp ' + n.toLocaleString('id-ID');
+        const newCost = qty * 175000;
+        const newTax = Math.round(newCost * 0.11);
+        const totalSeats = 5 + qty;
+        const allCost = totalSeats * 175000;
+        const allTotal = allCost * months;
+        const allTax = Math.round(allTotal * 0.11);
+        const subtotal = newCost + allTotal;
+        const totalTax = Math.round(subtotal * 0.11);
+        const grand = subtotal + totalTax;
+        return {
+          newLabel: lang === 'id' ? 'Akun karyawan baru (' + qty + ' akun)' : 'New employee accounts (' + qty + ' accounts)',
+          newCost: fmt(newCost), newTax: fmt(newTax), newTotal: fmt(newCost),
+          allLabel: lang === 'id' ? 'Semua akun karyawan (5 + ' + qty + ' akun)' : 'All employee accounts (5 + ' + qty + ' accounts)',
+          allCost: fmt(allCost), allTotal: fmt(allTotal), allTax: fmt(allTax),
+          activeLabel: lang === 'id' ? 'Aktif hingga 15 Sep 2025 (' + months + ' bulan)' : 'Active until 15 Sep 2025 (' + months + ' months)',
+          subtotal: fmt(subtotal), itemCount: qty + ' item',
+          tax: fmt(totalTax), grand: fmt(grand),
+        };
+      })(),
 
       // FO sign reason lock (Kondisi 2)
       reasonOpacity:       isPersonalCert ? 0 : 1,
